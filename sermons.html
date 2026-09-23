@@ -3,24 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>教會主日影音與講義專區</title>
-  <!-- 引入 Google Fonts 提升中英文字型質感 -->
+  <title>主日影音與檔案下載</title>
+  <!-- Google Fonts 質感字型 -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <style>
     :root {
-      --bg-main: #f8fafc;
+      --bg: #fafafa;
       --card-bg: #ffffff;
-      --text-main: #0f172a;
-      --text-muted: #64748b;
-      --primary: #0284c7;
-      --primary-light: #e0f2fe;
-      --border-color: #e2e8f0;
+      --text-main: #18181b;
+      --text-muted: #71717a;
+      --border-subtle: #e4e4e7;
+      --border-strong: #d4d4d8;
       --radius-card: 16px;
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
-      --shadow-hover: 0 12px 24px -8px rgba(15, 23, 42, 0.12);
+      --shadow-soft: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+      --shadow-hover: 0 16px 32px -8px rgba(0, 0, 0, 0.08);
     }
 
     * {
@@ -31,154 +30,310 @@
 
     body {
       font-family: 'Plus Jakarta Sans', 'Noto Sans TC', -apple-system, sans-serif;
-      background-color: var(--bg-main);
+      background-color: var(--bg);
       color: var(--text-main);
       line-height: 1.6;
-      padding: 60px 20px;
+      padding: 40px 24px 80px;
+      -webkit-font-smoothing: antialiased;
     }
 
     .container {
-      max-width: 1140px;
+      max-width: 1160px;
       margin: 0 auto;
     }
 
-    /* 頁首標題區 */
-    .header-area {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-    .header-tag {
-      display: inline-block;
-      font-size: 0.82rem;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--primary);
-      background: var(--primary-light);
-      padding: 4px 12px;
-      border-radius: 9999px;
-      margin-bottom: 12px;
-    }
-    .header-area h1 {
-      font-size: 2.2rem;
-      font-weight: 700;
-      color: var(--text-main);
-      letter-spacing: -0.5px;
-      margin-bottom: 10px;
-    }
-    .header-area p {
-      color: var(--text-muted);
-      font-size: 1rem;
-    }
-
-    /* 頂級質感篩選列 */
-    .filter-panel {
-      background: #ffffff;
-      border-radius: 20px;
-      padding: 24px;
-      border: 1px solid var(--border-color);
-      box-shadow: var(--shadow-sm);
-      margin-bottom: 40px;
+    /* 頂部導覽區域 */
+    .header-nav-wrapper {
+      margin-bottom: 36px;
       display: flex;
       flex-direction: column;
+      gap: 20px;
+    }
+
+    /* 頂部第一列：標題（左）與回主頁（右） */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       gap: 16px;
     }
 
-    /* 第一層：大分類（主日/青年/禱告會） */
-    .main-nav {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      flex-wrap: wrap;
-      border-bottom: 1px solid #f1f5f9;
-      padding-bottom: 16px;
+    .title-meta h1 {
+      font-size: 1.85rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+      white-space: nowrap;
     }
-    .main-nav-btn {
-      padding: 9px 20px;
+
+    /* 回主頁膠囊按鈕 */
+    .btn-home {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 18px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: #18181b;
+      background-color: #ffffff;
+      border: 1.5px solid #27272a;
+      border-radius: 9999px;
+      text-decoration: none;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .btn-home svg {
+      width: 15px;
+      height: 15px;
+      stroke: #18181b;
+    }
+    .btn-home:hover {
+      background-color: #18181b;
+      color: #ffffff;
+      border-color: #18181b;
+      transform: translateY(-1px);
+    }
+    .btn-home:hover svg {
+      stroke: #ffffff;
+    }
+
+    /* 搜尋欄（在桌機模式下放在右邊，手機模式下單獨置頂） */
+    .search-box {
+      position: relative;
+      width: 260px;
+    }
+    .search-input {
+      width: 100%;
+      padding: 7px 34px 7px 36px;
+      font-size: 0.86rem;
+      border: 1px solid var(--border-subtle);
+      border-radius: 9999px;
+      outline: none;
+      background: #ffffff;
+      color: var(--text-main);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .search-input:focus {
+      border-color: #a1a1aa;
+      box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+    }
+    .search-input::placeholder {
+      color: #a1a1aa;
+    }
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #a1a1aa;
+      display: flex;
+      pointer-events: none;
+    }
+    .search-clear-btn {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #e4e4e7;
+      border: none;
+      color: #71717a;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      font-size: 10px;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    .search-clear-btn:hover {
+      background: #d4d4d8;
+      color: #18181b;
+    }
+
+    /* 頂部第二列：控制列 */
+    .filter-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 2px;
+    }
+
+    .filter-left-group {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .category-tabs {
+      display: flex;
+      gap: 20px;
+      white-space: nowrap;
+    }
+    .tab-btn {
+      position: relative;
+      padding: 10px 2px 14px;
       border: none;
       background: transparent;
       color: var(--text-muted);
       font-size: 0.95rem;
-      font-weight: 600;
-      border-radius: 12px;
+      font-weight: 500;
       cursor: pointer;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: color 0.2s ease;
+      white-space: nowrap;
     }
-    .main-nav-btn:hover {
+    .tab-btn:hover {
       color: var(--text-main);
-      background-color: #f1f5f9;
     }
-    .main-nav-btn.active {
-      color: #ffffff;
-      background-color: var(--primary);
-      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+    .tab-btn.active {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+    .tab-btn.active::after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background-color: var(--text-main);
+      border-radius: 2px;
     }
 
-    /* 第二層：系列小標籤（曠野歷程、以弗所書...） */
-    .series-nav {
+    /* 客製化系列下拉選單 */
+    .custom-dropdown {
+      position: relative;
+      user-select: none;
+      flex-shrink: 0;
+      margin-bottom: 4px;
+    }
+    .dropdown-trigger {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 13px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      font-family: inherit;
+      color: var(--text-main);
+      background: #ffffff;
+      border: 1px solid var(--border-subtle);
+      border-radius: 9999px;
+      outline: none;
+      cursor: pointer;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      white-space: nowrap;
+    }
+    .dropdown-trigger:hover {
+      border-color: var(--border-strong);
+      background-color: #fafafa;
+    }
+    .dropdown-trigger.has-value {
+      background-color: #18181b;
+      color: #ffffff;
+      border-color: #18181b;
+    }
+    .dropdown-trigger.has-value .arrow-icon {
+      stroke: #ffffff;
+    }
+    .arrow-icon {
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      stroke: #71717a;
+    }
+    .custom-dropdown.open .arrow-icon {
+      transform: rotate(180deg);
+    }
+    .dropdown-menu {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0; /* 改為右對齊，避免在螢幕右側時超出邊界 */
+      min-width: 170px;
+      background: #ffffff;
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 6px;
+      box-shadow: 0 12px 28px -4px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.03);
+      list-style: none;
+      z-index: 50;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px) scale(0.97);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      max-height: 260px;
+      overflow-y: auto;
+    }
+    .custom-dropdown.open .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+    }
+    .dropdown-item {
+      padding: 8px 12px;
+      font-size: 0.86rem;
+      font-weight: 500;
+      color: #3f3f46;
+      border-radius: 8px;
+      cursor: pointer;
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 8px;
-      flex-wrap: wrap;
+      justify-content: space-between;
+      transition: all 0.15s ease;
+      white-space: nowrap;
     }
-    .series-title {
-      font-size: 0.82rem;
+    .dropdown-item:hover {
+      background-color: #f4f4f5;
+      color: #18181b;
+    }
+    .dropdown-item.active {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      font-weight: 600;
+    }
+    .dropdown-item.active::after {
+      content: "✓";
+      font-size: 0.8rem;
+      color: #0f172a;
       font-weight: 700;
-      color: #94a3b8;
-      margin-right: 4px;
-    }
-    .series-chip {
-      padding: 5px 14px;
-      border-radius: 9999px;
-      font-size: 0.84rem;
-      font-weight: 500;
-      border: 1px solid var(--border-color);
-      background: #f8fafc;
-      color: var(--text-muted);
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    .series-chip:hover {
-      border-color: #cbd5e1;
-      color: var(--text-main);
-    }
-    .series-chip.active {
-      background: #0f172a;
-      border-color: #0f172a;
-      color: #ffffff;
     }
 
-    /* 卡片格點佈局 (Grid) */
+    /* 卡片格網 */
     .sermon-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
       gap: 28px;
     }
 
-    /* 精緻卡片主體 */
+    /* 影音卡片主體 */
     .sermon-card {
       background: var(--card-bg);
       border-radius: var(--radius-card);
       overflow: hidden;
-      border: 1px solid var(--border-color);
-      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-soft);
       display: flex;
       flex-direction: column;
-      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s;
     }
     .sermon-card:hover {
-      transform: translateY(-5px);
+      transform: translateY(-4px);
       box-shadow: var(--shadow-hover);
-      border-color: #cbd5e1;
+      border-color: var(--border-strong);
     }
 
-    /* 影片縮圖 */
+    /* 縮圖外層 */
     .thumb-wrapper {
       position: relative;
       width: 100%;
       aspect-ratio: 16 / 9;
-      background: #000;
+      background: #000000;
       overflow: hidden;
     }
     .thumb-img {
@@ -186,11 +341,11 @@
       height: 100%;
       object-fit: cover;
       display: block;
-      transition: transform 0.4s ease, opacity 0.3s ease;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s;
     }
     .sermon-card:hover .thumb-img {
-      transform: scale(1.04);
-      opacity: 0.88;
+      transform: scale(1.03);
+      opacity: 0.9;
     }
     .play-button-overlay {
       position: absolute;
@@ -198,35 +353,35 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.4) 100%);
+      background: linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.3) 100%);
       pointer-events: none;
     }
     .play-icon {
-      width: 46px;
-      height: 46px;
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(4px);
+      width: 44px;
+      height: 44px;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(8px);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
       transition: transform 0.2s ease;
     }
     .play-icon::after {
       content: "";
       border-style: solid;
-      border-width: 6px 0 6px 11px;
-      border-color: transparent transparent transparent #0f172a;
+      border-width: 5.5px 0 5.5px 10px;
+      border-color: transparent transparent transparent #18181b;
       margin-left: 2px;
     }
     .sermon-card:hover .play-icon {
-      transform: scale(1.1);
+      transform: scale(1.08);
     }
 
     /* 卡片內容區 */
     .card-body {
-      padding: 20px;
+      padding: 20px 22px;
       display: flex;
       flex-direction: column;
       flex: 1;
@@ -236,78 +391,100 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       flex-wrap: wrap;
     }
     .meta-tag {
       font-size: 0.75rem;
-      font-weight: 700;
+      font-weight: 600;
       padding: 3px 8px;
       border-radius: 6px;
     }
     .tag-category {
-      background-color: var(--primary-light);
-      color: #0369a1;
+      background-color: #f4f4f5;
+      color: #3f3f46;
     }
     .tag-series {
-      background-color: #f1f5f9;
-      color: #475569;
+      background-color: #e0f2fe;
+      color: #0369a1;
     }
     .meta-date {
-      font-size: 0.82rem;
-      color: #94a3b8;
+      font-size: 0.8rem;
+      color: #a1a1aa;
       margin-left: auto;
+    }
+
+    /* 講題與講員同行 */
+    .title-row {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 20px;
+      line-height: 1.45;
     }
     .card-title {
       font-size: 1.15rem;
       font-weight: 700;
       color: var(--text-main);
-      line-height: 1.45;
-      margin-bottom: 20px;
+      display: inline;
+    }
+    .card-speaker {
+      font-size: 0.88rem;
+      font-weight: 400;
+      color: #71717a;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .speaker-divider {
+      color: #d4d4d8;
     }
 
-    /* 下載按鈕區塊 */
+    /* 檔案按鈕區塊 */
     .downloads-wrapper {
       padding-top: 14px;
-      border-top: 1px solid #f1f5f9;
+      border-top: 1px solid #f4f4f5;
     }
     .downloads-title {
       font-size: 0.75rem;
       font-weight: 700;
-      color: #94a3b8;
-      text-transform: uppercase;
+      color: #a1a1aa;
       letter-spacing: 0.5px;
       margin-bottom: 8px;
     }
     .btn-group {
       display: flex;
-      gap: 6px;
+      gap: 7px;
       flex-wrap: wrap;
     }
     .file-btn {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      padding: 7px 11px;
+      padding: 6px 12px;
       font-size: 0.8rem;
       font-weight: 600;
       border-radius: 8px;
       text-decoration: none;
-      border: 1px solid var(--border-color);
-      background: #f8fafc;
-      color: #334155;
+      border: 1px solid var(--border-subtle);
+      background: #fafafa;
+      color: #3f3f46;
       transition: all 0.15s ease;
     }
     .file-btn:hover {
       background: #ffffff;
-      border-color: #94a3b8;
+      border-color: #a1a1aa;
       transform: translateY(-1px);
     }
-    /* 個別按鈕懸浮特色微強調 */
     .btn-sermon:hover {
       color: #ea580c;
       border-color: #fdba74;
       background: #fff7ed;
+    }
+    .btn-scripture:hover {
+      color: #7c3aed;
+      border-color: #c4b5fd;
+      background: #f5f3ff;
     }
     .btn-prayer:hover {
       color: #0284c7;
@@ -324,19 +501,97 @@
       grid-column: 1 / -1;
       text-align: center;
       padding: 80px 20px;
-      color: #94a3b8;
-      font-size: 1.05rem;
+      color: #a1a1aa;
+      font-size: 1rem;
     }
 
-    @media (max-width: 640px) {
+    /* ===== 手機版完美比例排版 ===== */
+    @media (max-width: 768px) {
       body {
-        padding: 40px 14px;
+        padding: 20px 14px 60px;
       }
-      .filter-panel {
-        padding: 16px;
+      .header-nav-wrapper {
+        gap: 14px;
+        margin-bottom: 20px;
       }
+      
+      /* 第一列：標題不折行，按鈕緊湊 */
+      .top-bar {
+        gap: 10px;
+      }
+      .title-meta h1 {
+        font-size: 1.35rem;
+      }
+      .btn-home {
+        padding: 5px 12px;
+        font-size: 0.8rem;
+        gap: 4px;
+      }
+      .btn-home svg {
+        width: 13px;
+        height: 13px;
+      }
+
+      /* 手機版：將篩選與控制列拆解為上下兩排 */
+      .filter-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+
+      /* 搜尋欄滿版在上方 */
+      .search-box {
+        width: 100%;
+        order: 1;
+      }
+      .search-input {
+        padding: 10px 36px 10px 38px;
+        font-size: 0.9rem;
+      }
+
+      /* 核心修復：分類列（左）與系列選單（右）並排鎖定在螢幕兩側 */
+      .filter-left-group {
+        order: 2;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        border-bottom: 1px solid var(--border-subtle);
+        padding-bottom: 2px;
+      }
+
+      /* 分類文字：自身可水平滾動，不會擠掉右邊的主題系列 */
+      .category-tabs {
+        flex: 1;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        gap: 14px;
+        scrollbar-width: none;
+      }
+      .category-tabs::-webkit-scrollbar {
+        display: none;
+      }
+      .tab-btn {
+        padding: 6px 2px 10px;
+        font-size: 0.88rem;
+      }
+
+      /* 主題系列選單：在手機上永遠固定在右手邊，保證看得到、點得到 */
+      .custom-dropdown {
+        flex-shrink: 0;
+        margin-bottom: 6px;
+      }
+      .dropdown-trigger {
+        padding: 5px 10px;
+        font-size: 0.8rem;
+      }
+
       .sermon-grid {
         grid-template-columns: 1fr;
+        gap: 18px;
       }
     }
   </style>
@@ -344,32 +599,73 @@
 <body>
 
   <div class="container">
-    <div class="header-area">
-      <span class="header-tag">Media & Resources</span>
-      <h1>主日影音與講義專區</h1>
-      <p>探索主日信息、禱告會影片，並可直接下載當週簡報教材</p>
-    </div>
+    <header class="header-nav-wrapper">
+      
+      <!-- 第一列：標題（左） / 回主頁（右） -->
+      <div class="top-bar">
+        <div class="title-meta">
+          <h1>主日影音與檔案下載</h1>
+        </div>
 
-    <!-- 質感篩選列 -->
-    <div class="filter-panel">
-      <!-- 第一層：大分類 -->
-      <nav class="main-nav" id="categoryNav">
-        <button class="main-nav-btn active" data-category="全部">全部聚會</button>
-        <button class="main-nav-btn" data-category="主日慶典">主日慶典</button>
-        <button class="main-nav-btn" data-category="青年教會">青年教會</button>
-        <button class="main-nav-btn" data-category="門徒禱告會及領袖班">門徒禱告會及領袖班</button>
-      </nav>
-
-      <!-- 第二層：系列主題 Chip -->
-      <div class="series-nav" id="seriesNav">
-        <span class="series-title">主題系列：</span>
-        <button class="series-chip active" data-series="全部">全部系列</button>
-        <button class="series-chip" data-series="曠野歷程">曠野歷程</button>
-        <button class="series-chip" data-series="以弗所書系列">以弗所書系列</button>
-        <button class="series-chip" data-series="門徒訓練">門徒訓練</button>
-        <button class="series-chip" data-series="其他">其他</button>
+        <a href="https://www.kszionch.org.tw/" class="btn-home" title="返回教會首頁">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+          回主頁
+        </a>
       </div>
-    </div>
+
+      <!-- 第二列：控制列（手機版搜尋置頂；分類在左、系列下拉選單釘在右側） -->
+      <div class="filter-bar">
+        <div class="filter-left-group">
+          <!-- 分類 Tabs（在手機上可左右滑動） -->
+          <nav class="category-tabs" id="categoryNav">
+            <button class="tab-btn active" data-category="全部">全部</button>
+            <button class="tab-btn" data-category="主日慶典">主日慶典</button>
+            <button class="tab-btn" data-category="青年教會">青年教會</button>
+            <button class="tab-btn" data-category="門徒禱告會及領袖班">門徒禱告會及領袖班</button>
+          </nav>
+
+          <!-- 主題系列下拉選單（手機版始終固定在右側） -->
+          <div class="custom-dropdown" id="seriesDropdown">
+            <button type="button" class="dropdown-trigger" id="dropdownTrigger">
+              <span id="dropdownCurrentLabel">全部主題系列</span>
+              <svg class="arrow-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <ul class="dropdown-menu" id="dropdownMenu">
+              <li class="dropdown-item active" data-value="全部">全部主題系列</li>
+              <li class="dropdown-item" data-value="受洗課程">受洗課程</li>
+              <li class="dropdown-item" data-value="門徒訓練">門徒訓練</li>
+              <li class="dropdown-item" data-value="曠野歷程">曠野歷程</li>
+              <li class="dropdown-item" data-value="以弗所書系列">以弗所書系列</li>
+              <li class="dropdown-item" data-value="其他">其他</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 搜尋列 -->
+        <div class="search-box">
+          <span class="search-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </span>
+          <input 
+            type="text" 
+            id="searchInput" 
+            class="search-input" 
+            placeholder="搜尋講題、講員、日期..." 
+            autocomplete="off"
+          />
+          <button id="searchClearBtn" class="search-clear-btn" title="清除搜尋">✕</button>
+        </div>
+      </div>
+
+    </header>
 
     <!-- 影音卡片網格 -->
     <div class="sermon-grid" id="sermonGrid"></div>
@@ -381,7 +677,75 @@
     let sermonsData = [];
     let currentCategory = "全部";
     let currentSeries = "全部";
+    let searchQuery = "";
+
     const sermonGridEl = document.getElementById("sermonGrid");
+    const searchInput = document.getElementById("searchInput");
+    const searchClearBtn = document.getElementById("searchClearBtn");
+
+    const seriesDropdown = document.getElementById("seriesDropdown");
+    const dropdownTrigger = document.getElementById("dropdownTrigger");
+    const dropdownCurrentLabel = document.getElementById("dropdownCurrentLabel");
+    const dropdownMenu = document.getElementById("dropdownMenu");
+
+    dropdownTrigger.addEventListener("click", (e) => {
+      e.stopPropagation();
+      seriesDropdown.classList.toggle("open");
+    });
+
+    function bindDropdownItemEvents() {
+      const items = dropdownMenu.querySelectorAll(".dropdown-item");
+      items.forEach(item => {
+        item.onclick = (e) => {
+          e.stopPropagation();
+          items.forEach(i => i.classList.remove("active"));
+          item.classList.add("active");
+
+          const val = item.dataset.value;
+          currentSeries = val;
+          dropdownCurrentLabel.textContent = item.textContent.replace("✓", "").trim();
+
+          if (val !== "全部") {
+            dropdownTrigger.classList.add("has-value");
+          } else {
+            dropdownTrigger.classList.remove("has-value");
+          }
+
+          seriesDropdown.classList.remove("open");
+          renderSermons();
+        };
+      });
+    }
+    bindDropdownItemEvents();
+
+    document.addEventListener("click", () => {
+      seriesDropdown.classList.remove("open");
+    });
+
+    function syncSeriesListFromData(data) {
+      const existingOptions = new Set(["全部", "受洗課程", "門徒訓練", "曠野歷程", "以弗所書系列", "其他"]);
+      const mainCategories = new Set(["主日慶典", "青年教會", "門徒禱告會及領袖班"]);
+      
+      const newSeriesFound = new Set();
+      data.forEach(item => {
+        const s = (item.series || "").trim();
+        const c = (item.category || "").trim();
+
+        if (s && !existingOptions.has(s)) newSeriesFound.add(s);
+        if (c && !mainCategories.has(c) && !existingOptions.has(c)) newSeriesFound.add(c);
+      });
+
+      if (newSeriesFound.size > 0) {
+        newSeriesFound.forEach(val => {
+          const li = document.createElement("li");
+          li.className = "dropdown-item";
+          li.dataset.value = val;
+          li.textContent = val;
+          dropdownMenu.appendChild(li);
+        });
+        bindDropdownItemEvents();
+      }
+    }
 
     function parseCSV(csvText) {
       const lines = csvText.trim().split("\n");
@@ -417,37 +781,43 @@
       return match ? match[1] : null;
     }
 
-    function formatDriveDownloadUrl(url) {
+    function formatDriveDirectUrl(url) {
       if (!url || url.trim() === "") return null;
       const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
       if (match && match[1]) {
-        return `https://drive.google.com/uc?export=download&id=${match[1]}`;
+        const fileId = match[1];
+        const directStreamUrl = encodeURIComponent(`https://drive.google.com/uc?export=download&id=${fileId}`);
+        return `https://docs.google.com/viewer?url=${directStreamUrl}`;
       }
       return url;
     }
 
     function createButtonsHtml(item) {
-      const sermonLink = formatDriveDownloadUrl(item.sermon_ppt);
-      const prayerLink = formatDriveDownloadUrl(item.prayer_ppt);
-      const noticeLink = formatDriveDownloadUrl(item.notice_url);
+      const sermonLink = formatDriveDirectUrl(item.sermon_ppt);
+      const scriptureLink = formatDriveDirectUrl(item.scripture_share);
+      const prayerLink = formatDriveDirectUrl(item.prayer_ppt);
+      const noticeLink = formatDriveDirectUrl(item.notice_url);
 
       let buttons = "";
 
       if (sermonLink) {
-        buttons += `<a class="file-btn btn-sermon" href="${sermonLink}" download target="_blank" rel="noopener">📊 信息 PPT</a>`;
+        buttons += `<a class="file-btn btn-sermon" href="${sermonLink}" target="_blank" rel="noopener">信息 PPT</a>`;
+      }
+      if (scriptureLink) {
+        buttons += `<a class="file-btn btn-scripture" href="${scriptureLink}" target="_blank" rel="noopener">釋經分享</a>`;
       }
       if (prayerLink) {
-        buttons += `<a class="file-btn btn-prayer" href="${prayerLink}" download target="_blank" rel="noopener">🙏 禱告會 PPT</a>`;
+        buttons += `<a class="file-btn btn-prayer" href="${prayerLink}" target="_blank" rel="noopener">禱告會 PPT</a>`;
       }
       if (noticeLink) {
-        buttons += `<a class="file-btn btn-notice" href="${noticeLink}" download target="_blank" rel="noopener">📢 報告事項</a>`;
+        buttons += `<a class="file-btn btn-notice" href="${noticeLink}" target="_blank" rel="noopener">報告事項</a>`;
       }
 
       if (!buttons) return "";
 
       return `
         <div class="downloads-wrapper">
-          <div class="downloads-title">檔案下載</div>
+          <div class="downloads-title">檔案查看與下載</div>
           <div class="btn-group">${buttons}</div>
         </div>
       `;
@@ -456,14 +826,28 @@
     function renderSermons() {
       sermonGridEl.innerHTML = "";
 
+      const query = searchQuery.trim().toLowerCase();
+
       const filtered = sermonsData.filter(item => {
-        const matchCategory = (currentCategory === "全部") || (item.category === currentCategory);
-        const matchSeries = (currentSeries === "全部") || (item.series === currentSeries);
-        return matchCategory && matchSeries;
+        const itemCat = (item.category || "").trim();
+        const itemSer = (item.series || "").trim();
+
+        const matchCategory = (currentCategory === "全部") || 
+                              (itemCat === currentCategory) || 
+                              (itemSer === currentCategory);
+
+        const matchSeries = (currentSeries === "全部") || 
+                            (itemSer === currentSeries) || 
+                            (itemCat === currentSeries);
+
+        const combinedText = `${item.title || ""} ${item.speaker || ""} ${item.date || ""} ${itemSer} ${itemCat}`.toLowerCase();
+        const matchSearch = query === "" || combinedText.includes(query);
+
+        return matchCategory && matchSeries && matchSearch;
       });
 
       if (filtered.length === 0) {
-        sermonGridEl.innerHTML = `<div class="empty-state">目前查無符合條件的影音或教材</div>`;
+        sermonGridEl.innerHTML = `<div class="empty-state">查無符合條件的影音或教材，請嘗試其他關鍵字或切換系列。</div>`;
         return;
       }
 
@@ -491,7 +875,15 @@
                 ${item.series ? `<span class="meta-tag tag-series">${item.series}</span>` : ""}
                 <span class="meta-date">${item.date}</span>
               </div>
-              <h2 class="card-title">${item.title}</h2>
+              
+              <div class="title-row">
+                <h2 class="card-title">${item.title}</h2>
+                ${item.speaker ? `
+                  <span class="card-speaker">
+                    <span class="speaker-divider">｜</span>講員：${item.speaker}
+                  </span>
+                ` : ""}
+              </div>
             </div>
             ${createButtonsHtml(item)}
           </div>
@@ -500,22 +892,25 @@
       });
     }
 
-    // 大分類切換
-    document.querySelectorAll("#categoryNav .main-nav-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        document.querySelectorAll("#categoryNav .main-nav-btn").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        currentCategory = btn.dataset.category;
-        renderSermons();
-      });
+    searchInput.addEventListener("input", (e) => {
+      searchQuery = e.target.value;
+      searchClearBtn.style.display = searchQuery.length > 0 ? "flex" : "none";
+      renderSermons();
     });
 
-    // 系列小標籤切換
-    document.querySelectorAll("#seriesNav .series-chip").forEach(btn => {
+    searchClearBtn.addEventListener("click", () => {
+      searchInput.value = "";
+      searchQuery = "";
+      searchClearBtn.style.display = "none";
+      searchInput.focus();
+      renderSermons();
+    });
+
+    document.querySelectorAll("#categoryNav .tab-btn").forEach(btn => {
       btn.addEventListener("click", () => {
-        document.querySelectorAll("#seriesNav .series-chip").forEach(b => b.classList.remove("active"));
+        document.querySelectorAll("#categoryNav .tab-btn").forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
-        currentSeries = btn.dataset.series;
+        currentCategory = btn.dataset.category;
         renderSermons();
       });
     });
@@ -529,6 +924,7 @@
         const csvText = await response.text();
         sermonsData = parseCSV(csvText);
 
+        syncSeriesListFromData(sermonsData);
         renderSermons();
       } catch (error) {
         console.error("載入失敗：", error);
