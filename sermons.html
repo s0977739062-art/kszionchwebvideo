@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>教會主日影音與講義專區</title>
+  <!-- 引入 Google Fonts 提升中英文字型質感 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-main: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --primary: #0284c7;
+      --primary-light: #e0f2fe;
+      --border-color: #e2e8f0;
+      --radius-card: 16px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
+      --shadow-hover: 0 12px 24px -8px rgba(15, 23, 42, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', 'Noto Sans TC', -apple-system, sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 60px 20px;
+    }
+
+    .container {
+      max-width: 1140px;
+      margin: 0 auto;
+    }
+
+    /* 頁首標題區 */
+    .header-area {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .header-tag {
+      display: inline-block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--primary);
+      background: var(--primary-light);
+      padding: 4px 12px;
+      border-radius: 9999px;
+      margin-bottom: 12px;
+    }
+    .header-area h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+    }
+    .header-area p {
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    /* 頂級質感篩選列 */
+    .filter-panel {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 24px;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* 第一層：大分類（主日/青年/禱告會） */
+    .main-nav {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 16px;
+    }
+    .main-nav-btn {
+      padding: 9px 20px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .main-nav-btn:hover {
+      color: var(--text-main);
+      background-color: #f1f5f9;
+    }
+    .main-nav-btn.active {
+      color: #ffffff;
+      background-color: var(--primary);
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+    }
+
+    /* 第二層：系列小標籤（曠野歷程、以弗所書...） */
+    .series-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .series-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #94a3b8;
+      margin-right: 4px;
+    }
+    .series-chip {
+      padding: 5px 14px;
+      border-radius: 9999px;
+      font-size: 0.84rem;
+      font-weight: 500;
+      border: 1px solid var(--border-color);
+      background: #f8fafc;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .series-chip:hover {
+      border-color: #cbd5e1;
+      color: var(--text-main);
+    }
+    .series-chip.active {
+      background: #0f172a;
+      border-color: #0f172a;
+      color: #ffffff;
+    }
+
+    /* 卡片格點佈局 (Grid) */
+    .sermon-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 28px;
+    }
+
+    /* 精緻卡片主體 */
+    .sermon-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+    .sermon-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-hover);
+      border-color: #cbd5e1;
+    }
+
+    /* 影片縮圖 */
+    .thumb-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      overflow: hidden;
+    }
+    .thumb-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease, opacity 0.3s ease;
+    }
+    .sermon-card:hover .thumb-img {
+      transform: scale(1.04);
+      opacity: 0.88;
+    }
+    .play-button-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.4) 100%);
+      pointer-events: none;
+    }
+    .play-icon {
+      width: 46px;
+      height: 46px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(4px);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      transition: transform 0.2s ease;
+    }
+    .play-icon::after {
+      content: "";
+      border-style: solid;
+      border-width: 6px 0 6px 11px;
+      border-color: transparent transparent transparent #0f172a;
+      margin-left: 2px;
+    }
+    .sermon-card:hover .play-icon {
+      transform: scale(1.1);
+    }
+
+    /* 卡片內容區 */
+    .card-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      justify-content: space-between;
+    }
+    .card-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+    .meta-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+    .tag-category {
+      background-color: var(--primary-light);
+      color: #0369a1;
+    }
+    .tag-series {
+      background-color: #f1f5f9;
+      color: #475569;
+    }
+    .meta-date {
+      font-size: 0.82rem;
+      color: #94a3b8;
+      margin-left: auto;
+    }
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.45;
+      margin-bottom: 20px;
+    }
+
+    /* 下載按鈕區塊 */
+    .downloads-wrapper {
+      padding-top: 14px;
+      border-top: 1px solid #f1f5f9;
+    }
+    .downloads-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+    .btn-group {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .file-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 11px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border-radius: 8px;
+      text-decoration: none;
+      border: 1px solid var(--border-color);
+      background: #f8fafc;
+      color: #334155;
+      transition: all 0.15s ease;
+    }
+    .file-btn:hover {
+      background: #ffffff;
+      border-color: #94a3b8;
+      transform: translateY(-1px);
+    }
+    /* 個別按鈕懸浮特色微強調 */
+    .btn-sermon:hover {
+      color: #ea580c;
+      border-color: #fdba74;
+      background: #fff7ed;
+    }
+    .btn-prayer:hover {
+      color: #0284c7;
+      border-color: #7dd3fc;
+      background: #f0f9ff;
+    }
+    .btn-notice:hover {
+      color: #059669;
+      border-color: #6ee7b7;
+      background: #ecfdf5;
+    }
+
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 80px 20px;
+      color: #94a3b8;
+      font-size: 1.05rem;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 40px 14px;
+      }
+      .filter-panel {
+        padding: 16px;
+      }
+      .sermon-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header-area">
+      <span class="header-tag">Media & Resources</span>
+      <h1>主日影音與講義專區</h1>
+      <p>探索主日信息、禱告會影片，並可直接下載當週簡報教材</p>
+    </div>
+
+    <!-- 質感篩選列 -->
+    <div class="filter-panel">
+      <!-- 第一層：大分類 -->
+      <nav class="main-nav" id="categoryNav">
+        <button class="main-nav-btn active" data-category="全部">全部聚會</button>
+        <button class="main-nav-btn" data-category="主日慶典">主日慶典</button>
+        <button class="main-nav-btn" data-category="青年教會">青年教會</button>
+        <button class="main-nav-btn" data-category="門徒禱告會及領袖班">門徒禱告會及領袖班</button>
+      </nav>
+
+      <!-- 第二層：系列主題 Chip -->
+      <div class="series-nav" id="seriesNav">
+        <span class="series-title">主題系列：</span>
+        <button class="series-chip active" data-series="全部">全部系列</button>
+        <button class="series-chip" data-series="曠野歷程">曠野歷程</button>
+        <button class="series-chip" data-series="以弗所書系列">以弗所書系列</button>
+        <button class="series-chip" data-series="門徒訓練">門徒訓練</button>
+        <button class="series-chip" data-series="其他">其他</button>
+      </div>
+    </div>
+
+    <!-- 影音卡片網格 -->
+    <div class="sermon-grid" id="sermonGrid"></div>
+  </div>
+
+  <script>
+    const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/1ND3z23MQeZIwgjLH5MKY208ETBUygiWCD78o4jPr2JM/gviz/tq?tqx=out:csv";
+
+    let sermonsData = [];
+    let currentCategory = "全部";
+    let currentSeries = "全部";
+    const sermonGridEl = document.getElementById("sermonGrid");
+
+    function parseCSV(csvText) {
+      const lines = csvText.trim().split("\n");
+      if (lines.length < 2) return [];
+
+      const headers = lines[0].split(",").map(h => h.trim().replace(/^"|"$/g, ""));
+      const result = [];
+      for (let i = 1; i < lines.length; i++) {
+        const line = lines[i].trim();
+        if (!line) continue;
+
+        const values = [];
+        let match;
+        const regex = /(?:,|\n|^)("(?:(?:"")*[^"]*)*"|[^",\n]*|(?:\n|$))/g;
+        while ((match = regex.exec(line)) && match[0] !== "") {
+          let val = match[1] || "";
+          val = val.replace(/^"|"$/g, "").replace(/""/g, '"').trim();
+          values.push(val);
+        }
+
+        const item = {};
+        headers.forEach((header, index) => {
+          item[header] = values[index] || "";
+        });
+        result.push(item);
+      }
+      return result;
+    }
+
+    function getYoutubeId(url) {
+      if (!url) return null;
+      const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+      return match ? match[1] : null;
+    }
+
+    function formatDriveDownloadUrl(url) {
+      if (!url || url.trim() === "") return null;
+      const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+      if (match && match[1]) {
+        return `https://drive.google.com/uc?export=download&id=${match[1]}`;
+      }
+      return url;
+    }
+
+    function createButtonsHtml(item) {
+      const sermonLink = formatDriveDownloadUrl(item.sermon_ppt);
+      const prayerLink = formatDriveDownloadUrl(item.prayer_ppt);
+      const noticeLink = formatDriveDownloadUrl(item.notice_url);
+
+      let buttons = "";
+
+      if (sermonLink) {
+        buttons += `<a class="file-btn btn-sermon" href="${sermonLink}" download target="_blank" rel="noopener">📊 信息 PPT</a>`;
+      }
+      if (prayerLink) {
+        buttons += `<a class="file-btn btn-prayer" href="${prayerLink}" download target="_blank" rel="noopener">🙏 禱告會 PPT</a>`;
+      }
+      if (noticeLink) {
+        buttons += `<a class="file-btn btn-notice" href="${noticeLink}" download target="_blank" rel="noopener">📢 報告事項</a>`;
+      }
+
+      if (!buttons) return "";
+
+      return `
+        <div class="downloads-wrapper">
+          <div class="downloads-title">檔案下載</div>
+          <div class="btn-group">${buttons}</div>
+        </div>
+      `;
+    }
+
+    function renderSermons() {
+      sermonGridEl.innerHTML = "";
+
+      const filtered = sermonsData.filter(item => {
+        const matchCategory = (currentCategory === "全部") || (item.category === currentCategory);
+        const matchSeries = (currentSeries === "全部") || (item.series === currentSeries);
+        return matchCategory && matchSeries;
+      });
+
+      if (filtered.length === 0) {
+        sermonGridEl.innerHTML = `<div class="empty-state">目前查無符合條件的影音或教材</div>`;
+        return;
+      }
+
+      filtered.forEach(item => {
+        const videoId = getYoutubeId(item.youtube_url);
+        const thumbUrl = videoId 
+          ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` 
+          : "https://via.placeholder.com/640x360?text=No+Video";
+
+        const card = document.createElement("article");
+        card.className = "sermon-card";
+        card.innerHTML = `
+          <div class="thumb-wrapper">
+            <a href="${item.youtube_url}" target="_blank" rel="noopener" style="display:block; width:100%; height:100%;">
+              <img class="thumb-img" src="${thumbUrl}" alt="${item.title}" />
+              <div class="play-button-overlay">
+                <div class="play-icon"></div>
+              </div>
+            </a>
+          </div>
+          <div class="card-body">
+            <div>
+              <div class="card-meta">
+                <span class="meta-tag tag-category">${item.category || "聚會"}</span>
+                ${item.series ? `<span class="meta-tag tag-series">${item.series}</span>` : ""}
+                <span class="meta-date">${item.date}</span>
+              </div>
+              <h2 class="card-title">${item.title}</h2>
+            </div>
+            ${createButtonsHtml(item)}
+          </div>
+        `;
+        sermonGridEl.appendChild(card);
+      });
+    }
+
+    // 大分類切換
+    document.querySelectorAll("#categoryNav .main-nav-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("#categoryNav .main-nav-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentCategory = btn.dataset.category;
+        renderSermons();
+      });
+    });
+
+    // 系列小標籤切換
+    document.querySelectorAll("#seriesNav .series-chip").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("#seriesNav .series-chip").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentSeries = btn.dataset.series;
+        renderSermons();
+      });
+    });
+
+    async function fetchSermonData() {
+      sermonGridEl.innerHTML = `<div class="empty-state">精彩影音載入中...</div>`;
+      try {
+        const response = await fetch(GOOGLE_SHEET_CSV_URL);
+        if (!response.ok) throw new Error("讀取試算表失敗");
+        
+        const csvText = await response.text();
+        sermonsData = parseCSV(csvText);
+
+        renderSermons();
+      } catch (error) {
+        console.error("載入失敗：", error);
+        sermonGridEl.innerHTML = `<div class="empty-state" style="color: #ef4444;">資料讀取異常，請確認試算表共用設定已開啟。</div>`;
+      }
+    }
+
+    fetchSermonData();
+  </script>
+</body>
+</html>
