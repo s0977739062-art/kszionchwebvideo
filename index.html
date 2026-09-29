@@ -99,61 +99,6 @@
       stroke: #ffffff;
     }
 
-    /* 搜尋欄（在桌機模式下放在右邊，手機模式下單獨置頂） */
-    .search-box {
-      position: relative;
-      width: 260px;
-    }
-    .search-input {
-      width: 100%;
-      padding: 7px 34px 7px 36px;
-      font-size: 0.86rem;
-      border: 1px solid var(--border-subtle);
-      border-radius: 9999px;
-      outline: none;
-      background: #ffffff;
-      color: var(--text-main);
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .search-input:focus {
-      border-color: #a1a1aa;
-      box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-    }
-    .search-input::placeholder {
-      color: #a1a1aa;
-    }
-    .search-icon {
-      position: absolute;
-      left: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #a1a1aa;
-      display: flex;
-      pointer-events: none;
-    }
-    .search-clear-btn {
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: #e4e4e7;
-      border: none;
-      color: #71717a;
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      font-size: 10px;
-      cursor: pointer;
-      display: none;
-      align-items: center;
-      justify-content: center;
-    }
-    .search-clear-btn:hover {
-      background: #d4d4d8;
-      color: #18181b;
-    }
-
     /* 頂部第二列：控制列 */
     .filter-bar {
       display: flex;
@@ -254,7 +199,7 @@
     .dropdown-menu {
       position: absolute;
       top: calc(100% + 8px);
-      right: 0; /* 改為右對齊，避免在螢幕右側時超出邊界 */
+      right: 0;
       min-width: 170px;
       background: #ffffff;
       border: 1px solid var(--border-subtle);
@@ -304,6 +249,62 @@
       font-weight: 700;
     }
 
+    /* 搜尋欄位 */
+    .search-box {
+      position: relative;
+      width: 250px;
+      margin-bottom: 4px;
+    }
+    .search-input {
+      width: 100%;
+      padding: 7px 34px 7px 36px;
+      font-size: 0.86rem;
+      border: 1px solid var(--border-subtle);
+      border-radius: 9999px;
+      outline: none;
+      background: #ffffff;
+      color: var(--text-main);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .search-input:focus {
+      border-color: #a1a1aa;
+      box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+    }
+    .search-input::placeholder {
+      color: #a1a1aa;
+    }
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #a1a1aa;
+      display: flex;
+      pointer-events: none;
+    }
+    .search-clear-btn {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #e4e4e7;
+      border: none;
+      color: #71717a;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      font-size: 10px;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    .search-clear-btn:hover {
+      background: #d4d4d8;
+      color: #18181b;
+    }
+
     /* 卡片格網 */
     .sermon-grid {
       display: grid;
@@ -333,7 +334,7 @@
       position: relative;
       width: 100%;
       aspect-ratio: 16 / 9;
-      background: #000000;
+      background: #0f172a;
       overflow: hidden;
     }
     .thumb-img {
@@ -347,13 +348,55 @@
       transform: scale(1.03);
       opacity: 0.9;
     }
+
+    /* 播放清單專屬質感封面（無破圖） */
+    .playlist-cover-bg {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .playlist-cover-bg::before {
+      content: "";
+      position: absolute;
+      top: -30%;
+      right: -20%;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .playlist-cover-title {
+      color: #f8fafc;
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+      z-index: 1;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+    }
+    .playlist-cover-sub {
+      color: #94a3b8;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      z-index: 1;
+    }
+
     .play-button-overlay {
       position: absolute;
       inset: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.3) 100%);
+      background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.3) 100%);
       pointer-events: none;
     }
     .play-icon {
@@ -377,6 +420,26 @@
     }
     .sermon-card:hover .play-icon {
       transform: scale(1.08);
+    }
+
+    /* 播放清單右下角浮水印膠囊標籤 */
+    .playlist-badge {
+      position: absolute;
+      right: 12px;
+      bottom: 12px;
+      background: rgba(15, 23, 42, 0.88);
+      backdrop-filter: blur(6px);
+      color: #ffffff;
+      padding: 5px 11px;
+      border-radius: 8px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+      pointer-events: none;
+      border: 1px solid rgba(255,255,255,0.1);
     }
 
     /* 卡片內容區 */
@@ -407,6 +470,10 @@
     .tag-series {
       background-color: #e0f2fe;
       color: #0369a1;
+    }
+    .tag-playlist {
+      background-color: #fef3c7;
+      color: #92400e;
     }
     .meta-date {
       font-size: 0.8rem;
@@ -505,7 +572,7 @@
       font-size: 1rem;
     }
 
-    /* ===== 手機版完美比例排版 ===== */
+    /* 手機版排版優化 */
     @media (max-width: 768px) {
       body {
         padding: 20px 14px 60px;
@@ -514,8 +581,6 @@
         gap: 14px;
         margin-bottom: 20px;
       }
-      
-      /* 第一列：標題不折行，按鈕緊湊 */
       .top-bar {
         gap: 10px;
       }
@@ -532,7 +597,6 @@
         height: 13px;
       }
 
-      /* 手機版：將篩選與控制列拆解為上下兩排 */
       .filter-bar {
         flex-direction: column;
         align-items: stretch;
@@ -541,17 +605,16 @@
         padding-bottom: 0;
       }
 
-      /* 搜尋欄滿版在上方 */
       .search-box {
         width: 100%;
         order: 1;
+        margin-bottom: 0;
       }
       .search-input {
         padding: 10px 36px 10px 38px;
         font-size: 0.9rem;
       }
 
-      /* 核心修復：分類列（左）與系列選單（右）並排鎖定在螢幕兩側 */
       .filter-left-group {
         order: 2;
         width: 100%;
@@ -563,7 +626,6 @@
         padding-bottom: 2px;
       }
 
-      /* 分類文字：自身可水平滾動，不會擠掉右邊的主題系列 */
       .category-tabs {
         flex: 1;
         overflow-x: auto;
@@ -579,7 +641,6 @@
         font-size: 0.88rem;
       }
 
-      /* 主題系列選單：在手機上永遠固定在右手邊，保證看得到、點得到 */
       .custom-dropdown {
         flex-shrink: 0;
         margin-bottom: 6px;
@@ -616,10 +677,10 @@
         </a>
       </div>
 
-      <!-- 第二列：控制列（手機版搜尋置頂；分類在左、系列下拉選單釘在右側） -->
+      <!-- 第二列：控制列 -->
       <div class="filter-bar">
         <div class="filter-left-group">
-          <!-- 分類 Tabs（在手機上可左右滑動） -->
+          <!-- 分類 Tabs -->
           <nav class="category-tabs" id="categoryNav">
             <button class="tab-btn active" data-category="全部">全部</button>
             <button class="tab-btn" data-category="主日慶典">主日慶典</button>
@@ -627,7 +688,7 @@
             <button class="tab-btn" data-category="門徒禱告會及領袖班">門徒禱告會及領袖班</button>
           </nav>
 
-          <!-- 主題系列下拉選單（手機版始終固定在右側） -->
+          <!-- 主題系列下拉選單 -->
           <div class="custom-dropdown" id="seriesDropdown">
             <button type="button" class="dropdown-trigger" id="dropdownTrigger">
               <span id="dropdownCurrentLabel">全部主題系列</span>
@@ -637,6 +698,7 @@
             </button>
             <ul class="dropdown-menu" id="dropdownMenu">
               <li class="dropdown-item active" data-value="全部">全部主題系列</li>
+              <li class="dropdown-item" data-value="內在生活">內在生活</li>
               <li class="dropdown-item" data-value="受洗課程">受洗課程</li>
               <li class="dropdown-item" data-value="門徒訓練">門徒訓練</li>
               <li class="dropdown-item" data-value="曠野歷程">曠野歷程</li>
@@ -723,7 +785,7 @@
     });
 
     function syncSeriesListFromData(data) {
-      const existingOptions = new Set(["全部", "受洗課程", "門徒訓練", "曠野歷程", "以弗所書系列", "其他"]);
+      const existingOptions = new Set(["全部", "內在生活", "受洗課程", "門徒訓練", "曠野歷程", "以弗所書系列", "其他"]);
       const mainCategories = new Set(["主日慶典", "青年教會", "門徒禱告會及領袖班"]);
       
       const newSeriesFound = new Set();
@@ -775,8 +837,15 @@
       return result;
     }
 
+    function isPlaylistUrl(url) {
+      if (!url) return false;
+      return url.includes("playlist?list=") || url.includes("&list=");
+    }
+
     function getYoutubeId(url) {
       if (!url) return null;
+      // 優先排除純清單連結
+      if (url.includes("playlist?list=")) return null;
       const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
       return match ? match[1] : null;
     }
@@ -852,28 +921,66 @@
       }
 
       filtered.forEach(item => {
+        const isPlaylist = isPlaylistUrl(item.youtube_url);
         const videoId = getYoutubeId(item.youtube_url);
-        const thumbUrl = videoId 
-          ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` 
-          : "https://via.placeholder.com/640x360?text=No+Video";
+
+        let mediaThumbHtml = "";
+
+        if (videoId) {
+          // 一般影片：直接使用 YouTube 高畫質縮圖，並加入防破圖處理
+          const thumbUrl = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+          mediaThumbHtml = `
+            <img class="thumb-img" src="${thumbUrl}" alt="${item.title}" onerror="this.parentElement.innerHTML='<div class=\\'playlist-cover-bg\\'><div class=\\'playlist-cover-title\\'>${item.title}</div></div>';" />
+            <div class="play-button-overlay">
+              <div class="play-icon"></div>
+            </div>
+          `;
+        } else if (isPlaylist) {
+          // 播放清單：採用專屬漸層典雅封面，完美避免破圖
+          mediaThumbHtml = `
+            <div class="playlist-cover-bg">
+              <div class="playlist-cover-title">${item.title}</div>
+              <div class="playlist-cover-sub">專題全系列播放清單</div>
+            </div>
+            <div class="play-button-overlay">
+              <div class="play-icon"></div>
+            </div>
+            <div class="playlist-badge">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="8" y1="6" x2="21" y2="6"></line>
+                <line x1="8" y1="12" x2="21" y2="12"></line>
+                <line x1="8" y1="18" x2="21" y2="18"></line>
+                <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                <line x1="3" y1="18" x2="3.01" y2="18"></line>
+              </svg>
+              播放清單
+            </div>
+          `;
+        } else {
+          // 無影片或無法識別
+          mediaThumbHtml = `
+            <div class="playlist-cover-bg">
+              <div class="playlist-cover-title">${item.title}</div>
+            </div>
+          `;
+        }
 
         const card = document.createElement("article");
         card.className = "sermon-card";
         card.innerHTML = `
           <div class="thumb-wrapper">
-            <a href="${item.youtube_url}" target="_blank" rel="noopener" style="display:block; width:100%; height:100%;">
-              <img class="thumb-img" src="${thumbUrl}" alt="${item.title}" />
-              <div class="play-button-overlay">
-                <div class="play-icon"></div>
-              </div>
+            <a href="${item.youtube_url || '#'}" target="_blank" rel="noopener" style="display:block; width:100%; height:100%; text-decoration:none;">
+              ${mediaThumbHtml}
             </a>
           </div>
           <div class="card-body">
             <div>
               <div class="card-meta">
                 <span class="meta-tag tag-category">${item.category || "聚會"}</span>
+                ${isPlaylist ? `<span class="meta-tag tag-playlist">專題清單</span>` : ""}
                 ${item.series ? `<span class="meta-tag tag-series">${item.series}</span>` : ""}
-                <span class="meta-date">${item.date}</span>
+                <span class="meta-date">${item.date || ""}</span>
               </div>
               
               <div class="title-row">
