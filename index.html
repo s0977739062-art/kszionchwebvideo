@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>主日影音與檔案下載</title>
-  <!-- Google Fonts 質感字型 -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -20,13 +19,10 @@
       --radius-card: 16px;
       --shadow-soft: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
       --shadow-hover: 0 16px 32px -8px rgba(0, 0, 0, 0.08);
+      --primary: #0f172a;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: 'Plus Jakarta Sans', 'Noto Sans TC', -apple-system, sans-serif;
@@ -37,12 +33,8 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    .container {
-      max-width: 1160px;
-      margin: 0 auto;
-    }
+    .container { max-width: 1160px; margin: 0 auto; }
 
-    /* 頂部導覽區域 */
     .header-nav-wrapper {
       margin-bottom: 36px;
       display: flex;
@@ -50,7 +42,6 @@
       gap: 20px;
     }
 
-    /* 頂部第一列：標題（左）與回主頁（右） */
     .top-bar {
       display: flex;
       justify-content: space-between;
@@ -66,8 +57,13 @@
       white-space: nowrap;
     }
 
-    /* 回主頁膠囊按鈕 */
-    .btn-home {
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-top-action {
       display: inline-flex;
       align-items: center;
       gap: 6px;
@@ -79,27 +75,52 @@
       border: 1.5px solid #27272a;
       border-radius: 9999px;
       text-decoration: none;
+      cursor: pointer;
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
       white-space: nowrap;
       flex-shrink: 0;
     }
-    .btn-home svg {
-      width: 15px;
-      height: 15px;
-      stroke: #18181b;
-    }
-    .btn-home:hover {
+    .btn-top-action svg { width: 15px; height: 15px; stroke: currentColor; }
+    .btn-top-action:hover {
       background-color: #18181b;
       color: #ffffff;
       border-color: #18181b;
       transform: translateY(-1px);
     }
-    .btn-home:hover svg {
-      stroke: #ffffff;
+
+    body.is-admin .btn-top-action {
+      background-color: #18181b;
+      color: #ffffff;
+      border-color: #18181b;
+      font-weight: 600;
+    }
+    body.is-admin .btn-top-action:hover {
+      background-color: #3f3f46;
+      border-color: #3f3f46;
     }
 
-    /* 頂部第二列：控制列 */
+    .btn-logout {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #f4f4f5;
+      border: 1px solid var(--border-subtle);
+      color: #71717a;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-logout:hover {
+      background: #e4e4e7;
+      color: #ef4444;
+    }
+    body.is-admin .btn-logout {
+      display: inline-flex;
+    }
+
     .filter-bar {
       display: flex;
       justify-content: space-between;
@@ -117,11 +138,7 @@
       min-width: 0;
     }
 
-    .category-tabs {
-      display: flex;
-      gap: 20px;
-      white-space: nowrap;
-    }
+    .category-tabs { display: flex; gap: 20px; white-space: nowrap; }
     .tab-btn {
       position: relative;
       padding: 10px 2px 14px;
@@ -134,13 +151,8 @@
       transition: color 0.2s ease;
       white-space: nowrap;
     }
-    .tab-btn:hover {
-      color: var(--text-main);
-    }
-    .tab-btn.active {
-      color: var(--text-main);
-      font-weight: 600;
-    }
+    .tab-btn:hover { color: var(--text-main); }
+    .tab-btn.active { color: var(--text-main); font-weight: 600; }
     .tab-btn.active::after {
       content: "";
       position: absolute;
@@ -152,7 +164,6 @@
       border-radius: 2px;
     }
 
-    /* 客製化系列下拉選單 */
     .custom-dropdown {
       position: relative;
       user-select: none;
@@ -186,16 +197,12 @@
       color: #ffffff;
       border-color: #18181b;
     }
-    .dropdown-trigger.has-value .arrow-icon {
-      stroke: #ffffff;
-    }
+    .dropdown-trigger.has-value .arrow-icon { stroke: #ffffff; }
     .arrow-icon {
       transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       stroke: #71717a;
     }
-    .custom-dropdown.open .arrow-icon {
-      transform: rotate(180deg);
-    }
+    .custom-dropdown.open .arrow-icon { transform: rotate(180deg); }
     .dropdown-menu {
       position: absolute;
       top: calc(100% + 8px);
@@ -233,23 +240,10 @@
       transition: all 0.15s ease;
       white-space: nowrap;
     }
-    .dropdown-item:hover {
-      background-color: #f4f4f5;
-      color: #18181b;
-    }
-    .dropdown-item.active {
-      background-color: #f1f5f9;
-      color: #0f172a;
-      font-weight: 600;
-    }
-    .dropdown-item.active::after {
-      content: "✓";
-      font-size: 0.8rem;
-      color: #0f172a;
-      font-weight: 700;
-    }
+    .dropdown-item:hover { background-color: #f4f4f5; color: #18181b; }
+    .dropdown-item.active { background-color: #f1f5f9; color: #0f172a; font-weight: 600; }
+    .dropdown-item.active::after { content: "✓"; font-size: 0.8rem; color: #0f172a; font-weight: 700; }
 
-    /* 搜尋欄位 */
     .search-box {
       position: relative;
       width: 250px;
@@ -271,9 +265,7 @@
       border-color: #a1a1aa;
       box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
     }
-    .search-input::placeholder {
-      color: #a1a1aa;
-    }
+    .search-input::placeholder { color: #a1a1aa; }
     .search-icon {
       position: absolute;
       left: 12px;
@@ -300,19 +292,14 @@
       align-items: center;
       justify-content: center;
     }
-    .search-clear-btn:hover {
-      background: #d4d4d8;
-      color: #18181b;
-    }
+    .search-clear-btn:hover { background: #d4d4d8; color: #18181b; }
 
-    /* 卡片格網 */
     .sermon-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
       gap: 28px;
     }
 
-    /* 影音卡片主體 */
     .sermon-card {
       background: var(--card-bg);
       border-radius: var(--radius-card);
@@ -321,6 +308,7 @@
       box-shadow: var(--shadow-soft);
       display: flex;
       flex-direction: column;
+      position: relative;
       transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s;
     }
     .sermon-card:hover {
@@ -329,7 +317,30 @@
       border-color: var(--border-strong);
     }
 
-    /* 縮圖外層 */
+    .admin-card-actions {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: none;
+      gap: 6px;
+      z-index: 20;
+    }
+    body.is-admin .admin-card-actions { display: flex; }
+    .btn-action-pill {
+      background: rgba(15, 23, 42, 0.88);
+      backdrop-filter: blur(6px);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 6px;
+      padding: 4px 8px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+    .btn-action-pill:hover { background: #18181b; }
+    .btn-action-delete:hover { background: #ef4444; border-color: #ef4444; }
+
     .thumb-wrapper {
       position: relative;
       width: 100%;
@@ -349,7 +360,6 @@
       opacity: 0.9;
     }
 
-    /* 播放清單專屬質感封面（無破圖） */
     .playlist-cover-bg {
       width: 100%;
       height: 100%;
@@ -361,32 +371,18 @@
       padding: 20px;
       text-align: center;
       position: relative;
-      overflow: hidden;
-    }
-    .playlist-cover-bg::before {
-      content: "";
-      position: absolute;
-      top: -30%;
-      right: -20%;
-      width: 200px;
-      height: 200px;
-      background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, transparent 70%);
-      border-radius: 50%;
     }
     .playlist-cover-title {
       color: #f8fafc;
       font-size: 1.25rem;
       font-weight: 700;
-      letter-spacing: 0.05em;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
       z-index: 1;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.4);
     }
     .playlist-cover-sub {
       color: #94a3b8;
       font-size: 0.82rem;
       font-weight: 500;
-      letter-spacing: 0.08em;
       z-index: 1;
     }
 
@@ -418,11 +414,7 @@
       border-color: transparent transparent transparent #18181b;
       margin-left: 2px;
     }
-    .sermon-card:hover .play-icon {
-      transform: scale(1.08);
-    }
 
-    /* 播放清單右下角浮水印膠囊標籤 */
     .playlist-badge {
       position: absolute;
       right: 12px;
@@ -437,12 +429,10 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.35);
       pointer-events: none;
       border: 1px solid rgba(255,255,255,0.1);
     }
 
-    /* 卡片內容區 */
     .card-body {
       padding: 20px 22px;
       display: flex;
@@ -463,25 +453,15 @@
       padding: 3px 8px;
       border-radius: 6px;
     }
-    .tag-category {
-      background-color: #f4f4f5;
-      color: #3f3f46;
-    }
-    .tag-series {
-      background-color: #e0f2fe;
-      color: #0369a1;
-    }
-    .tag-playlist {
-      background-color: #fef3c7;
-      color: #92400e;
-    }
+    .tag-category { background-color: #f4f4f5; color: #3f3f46; }
+    .tag-series { background-color: #e0f2fe; color: #0369a1; }
+    .tag-playlist { background-color: #fef3c7; color: #92400e; }
     .meta-date {
       font-size: 0.8rem;
       color: #a1a1aa;
       margin-left: auto;
     }
 
-    /* 講題與講員同行 */
     .title-row {
       display: flex;
       align-items: baseline;
@@ -504,11 +484,8 @@
       align-items: center;
       gap: 6px;
     }
-    .speaker-divider {
-      color: #d4d4d8;
-    }
+    .speaker-divider { color: #d4d4d8; }
 
-    /* 檔案按鈕區塊 */
     .downloads-wrapper {
       padding-top: 14px;
       border-top: 1px solid #f4f4f5;
@@ -520,11 +497,7 @@
       letter-spacing: 0.5px;
       margin-bottom: 8px;
     }
-    .btn-group {
-      display: flex;
-      gap: 7px;
-      flex-wrap: wrap;
-    }
+    .btn-group { display: flex; gap: 7px; flex-wrap: wrap; }
     .file-btn {
       display: inline-flex;
       align-items: center;
@@ -543,26 +516,11 @@
       border-color: #a1a1aa;
       transform: translateY(-1px);
     }
-    .btn-sermon:hover {
-      color: #ea580c;
-      border-color: #fdba74;
-      background: #fff7ed;
-    }
-    .btn-scripture:hover {
-      color: #7c3aed;
-      border-color: #c4b5fd;
-      background: #f5f3ff;
-    }
-    .btn-prayer:hover {
-      color: #0284c7;
-      border-color: #7dd3fc;
-      background: #f0f9ff;
-    }
-    .btn-notice:hover {
-      color: #059669;
-      border-color: #6ee7b7;
-      background: #ecfdf5;
-    }
+    .btn-sermon:hover { color: #ea580c; border-color: #fdba74; background: #fff7ed; }
+    .btn-notice:hover { color: #059669; border-color: #6ee7b7; background: #ecfdf5; }
+    .btn-prayer:hover { color: #0284c7; border-color: #7dd3fc; background: #f0f9ff; }
+    .btn-devotion:hover { color: #d97706; border-color: #fcd34d; background: #fffbeb; }
+    .btn-scripture:hover { color: #7c3aed; border-color: #c4b5fd; background: #f5f3ff; }
 
     .empty-state {
       grid-column: 1 / -1;
@@ -572,88 +530,245 @@
       font-size: 1rem;
     }
 
-    /* 手機版排版優化 */
+    .btn-floating-admin {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid var(--border-subtle);
+      color: #a1a1aa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+      backdrop-filter: blur(6px);
+      transition: all 0.25s ease;
+      z-index: 100;
+      opacity: 0.6;
+    }
+    .btn-floating-admin:hover {
+      opacity: 1;
+      color: #18181b;
+      border-color: #a1a1aa;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    }
+    body.is-admin .btn-floating-admin {
+      background: #18181b;
+      color: #ffffff;
+      opacity: 0.95;
+      border-color: #18181b;
+    }
+
+    .toast-notification {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background: #18181b;
+      color: #ffffff;
+      padding: 10px 22px;
+      border-radius: 9999px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.25);
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .toast-notification.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 16px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: #ffffff;
+      width: 100%;
+      max-width: 680px;
+      max-height: 92vh;
+      overflow-y: auto;
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.2);
+      animation: modalFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: translateY(12px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 12px;
+    }
+    .modal-header h2 { font-size: 1.25rem; font-weight: 700; }
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      color: #a1a1aa;
+      cursor: pointer;
+    }
+    .modal-close:hover { color: #18181b; }
+
+    .form-group { margin-bottom: 14px; }
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #3f3f46;
+    }
+    .form-control {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      font-size: 0.88rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-control:focus { border-color: #18181b; }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .upload-tip-banner {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 10px;
+      padding: 10px 14px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: #166534;
+      line-height: 1.45;
+    }
+    .upload-tip-icon { font-size: 1rem; flex-shrink: 0; }
+
+    .upload-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .drop-card {
+      border: 1.5px dashed var(--border-strong);
+      border-radius: 12px;
+      padding: 12px;
+      background: #fafafa;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 96px;
+      position: relative;
+    }
+    .drop-card:hover, .drop-card.dragover {
+      border-color: #18181b;
+      background: #f4f4f5;
+    }
+    .drop-card.cover-theme {
+      border-color: #cbd5e1;
+      background: #f8fafc;
+      padding: 14px;
+    }
+    .drop-card.cover-theme:hover {
+      border-color: #0284c7;
+      background: #f0f9ff;
+    }
+    .drop-card-title {
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: #27272a;
+      margin-bottom: 2px;
+    }
+    .drop-card-desc {
+      font-size: 0.74rem;
+      color: #71717a;
+    }
+    .drop-card-file {
+      margin-top: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #0284c7;
+      word-break: break-all;
+    }
+    .cover-preview-img {
+      max-height: 120px;
+      max-width: 100%;
+      border-radius: 8px;
+      margin-top: 8px;
+      object-fit: cover;
+      display: none;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 12px;
+      background: #18181b;
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 14px;
+      transition: background 0.2s;
+    }
+    .btn-submit:hover { background: #3f3f46; }
+    .btn-submit:disabled { background: #a1a1aa; cursor: not-allowed; }
+
     @media (max-width: 768px) {
-      body {
-        padding: 20px 14px 60px;
-      }
-      .header-nav-wrapper {
-        gap: 14px;
-        margin-bottom: 20px;
-      }
-      .top-bar {
-        gap: 10px;
-      }
-      .title-meta h1 {
-        font-size: 1.35rem;
-      }
-      .btn-home {
-        padding: 5px 12px;
-        font-size: 0.8rem;
-        gap: 4px;
-      }
-      .btn-home svg {
-        width: 13px;
-        height: 13px;
-      }
-
-      .filter-bar {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 12px;
-        border-bottom: none;
-        padding-bottom: 0;
-      }
-
-      .search-box {
-        width: 100%;
-        order: 1;
-        margin-bottom: 0;
-      }
-      .search-input {
-        padding: 10px 36px 10px 38px;
-        font-size: 0.9rem;
-      }
-
-      .filter-left-group {
-        order: 2;
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 10px;
-        border-bottom: 1px solid var(--border-subtle);
-        padding-bottom: 2px;
-      }
-
-      .category-tabs {
-        flex: 1;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        gap: 14px;
-        scrollbar-width: none;
-      }
-      .category-tabs::-webkit-scrollbar {
-        display: none;
-      }
-      .tab-btn {
-        padding: 6px 2px 10px;
-        font-size: 0.88rem;
-      }
-
-      .custom-dropdown {
-        flex-shrink: 0;
-        margin-bottom: 6px;
-      }
-      .dropdown-trigger {
-        padding: 5px 10px;
-        font-size: 0.8rem;
-      }
-
-      .sermon-grid {
-        grid-template-columns: 1fr;
-        gap: 18px;
-      }
+      body { padding: 20px 14px 60px; }
+      .header-nav-wrapper { gap: 14px; margin-bottom: 20px; }
+      .top-bar { gap: 10px; }
+      .title-meta h1 { font-size: 1.35rem; }
+      .btn-top-action { padding: 5px 12px; font-size: 0.8rem; }
+      .filter-bar { flex-direction: column; align-items: stretch; gap: 12px; border-bottom: none; }
+      .search-box { width: 100%; order: 1; }
+      .search-input { padding: 10px 36px 10px 38px; font-size: 0.9rem; }
+      .filter-left-group { order: 2; width: 100%; justify-content: space-between; border-bottom: 1px solid var(--border-subtle); padding-bottom: 2px; }
+      .category-tabs { flex: 1; overflow-x: auto; gap: 14px; scrollbar-width: none; }
+      .category-tabs::-webkit-scrollbar { display: none; }
+      .tab-btn { padding: 6px 2px 10px; font-size: 0.88rem; }
+      .custom-dropdown { margin-bottom: 6px; }
+      .dropdown-trigger { padding: 5px 10px; font-size: 0.8rem; }
+      .sermon-grid { grid-template-columns: 1fr; gap: 18px; }
+      .form-row, .upload-grid { grid-template-columns: 1fr; }
+      .btn-floating-admin { bottom: 16px; right: 16px; width: 36px; height: 36px; }
     }
   </style>
 </head>
@@ -661,26 +776,32 @@
 
   <div class="container">
     <header class="header-nav-wrapper">
-      
-      <!-- 第一列：標題（左） / 回主頁（右） -->
       <div class="top-bar">
         <div class="title-meta">
           <h1>主日影音與檔案下載</h1>
         </div>
 
-        <a href="https://www.kszionch.org.tw/" class="btn-home" title="返回教會首頁">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-            <polyline points="9 22 9 12 15 12 15 22"></polyline>
-          </svg>
-          回主頁
-        </a>
+        <div class="top-actions">
+          <a id="topDynamicBtn" href="https://www.kszionch.org.tw/" class="btn-top-action" title="返回教會首頁">
+            <svg id="topBtnIcon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span id="topBtnLabel">回主頁</span>
+          </a>
+
+          <button id="logoutBtn" class="btn-logout" title="登出同工後台">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+          </button>
+        </div>
       </div>
 
-      <!-- 第二列：控制列 -->
       <div class="filter-bar">
         <div class="filter-left-group">
-          <!-- 分類 Tabs -->
           <nav class="category-tabs" id="categoryNav">
             <button class="tab-btn active" data-category="全部">全部</button>
             <button class="tab-btn" data-category="主日慶典">主日慶典</button>
@@ -688,7 +809,6 @@
             <button class="tab-btn" data-category="門徒禱告會及領袖班">門徒禱告會及領袖班</button>
           </nav>
 
-          <!-- 主題系列下拉選單 -->
           <div class="custom-dropdown" id="seriesDropdown">
             <button type="button" class="dropdown-trigger" id="dropdownTrigger">
               <span id="dropdownCurrentLabel">全部主題系列</span>
@@ -708,7 +828,6 @@
           </div>
         </div>
 
-        <!-- 搜尋列 -->
         <div class="search-box">
           <span class="search-icon">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -716,30 +835,158 @@
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
           </span>
-          <input 
-            type="text" 
-            id="searchInput" 
-            class="search-input" 
-            placeholder="搜尋講題、講員、日期..." 
-            autocomplete="off"
-          />
+          <input type="text" id="searchInput" class="search-input" placeholder="搜尋講題、講員、日期..." autocomplete="off" />
           <button id="searchClearBtn" class="search-clear-btn" title="清除搜尋">✕</button>
         </div>
       </div>
-
     </header>
 
-    <!-- 影音卡片網格 -->
     <div class="sermon-grid" id="sermonGrid"></div>
+  </div>
+
+  <button class="btn-floating-admin" id="openAdminBtn" title="同工管理">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+      <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+    </svg>
+  </button>
+
+  <!-- 後台彈出視窗 (Modal) -->
+  <div class="modal-overlay" id="adminModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h2 id="modalTitle">發布新影音 / 教材</h2>
+        <button class="modal-close" id="closeAdminBtn">&times;</button>
+      </div>
+      <form id="addSermonForm">
+        <input type="hidden" id="editRowIndex" value="">
+        <input type="hidden" id="editOldTitle" value="">
+        <input type="hidden" id="editOldYoutubeUrl" value="">
+        
+        <input type="hidden" id="existingCoverUrl" value="">
+        <input type="hidden" id="existingSermonUrl" value="">
+        <input type="hidden" id="existingNoticeUrl" value="">
+        <input type="hidden" id="existingPrayerUrl" value="">
+        <input type="hidden" id="existingDevotionUrl" value="">
+        <input type="hidden" id="existingScriptureUrl" value="">
+
+        <!-- 淺灰色 placeholder 全部已清除 -->
+        <div class="form-group">
+          <label>講道題目 / 系列名稱 *</label>
+          <input type="text" id="formTitle" class="form-control" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>講員</label>
+            <input type="text" id="formSpeaker" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>日期 (YYYY-MM-DD)</label>
+            <input type="text" id="formDate" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>YouTube 影片或播放清單網址 *</label>
+          <input type="url" id="formYoutube" class="form-control" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>所屬分類 *</label>
+            <select id="formCategory" class="form-control">
+              <option value="主日慶典">主日慶典</option>
+              <option value="青年教會">青年教會</option>
+              <option value="門徒禱告會及領袖班">門徒禱告會及領袖班</option>
+              <option value="其他">其他</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>主題系列 (選填)</label>
+            <input type="text" id="formSeries" class="form-control">
+          </div>
+        </div>
+
+        <!-- 封面縮圖修改/自訂區 -->
+        <div class="form-group">
+          <label>自訂封面縮圖（支援 .jpg, .png, .webp）</label>
+          <div class="drop-card cover-theme" id="drop_cover">
+            <div class="drop-card-title">🖼️ 自訂卡片封面</div>
+            <div class="drop-card-desc">拖曳圖片至此或點擊選取（若不自訂，將自動抓取 YouTube 縮圖）</div>
+            <img id="coverPreviewImg" class="cover-preview-img" alt="封面預覽">
+            <div class="drop-card-file" id="name_cover"></div>
+            <input type="file" id="file_cover" accept="image/*" style="display:none">
+          </div>
+        </div>
+
+        <div class="upload-tip-banner" id="uploadTipBanner">
+          <span class="upload-tip-icon">💡</span>
+          <span id="uploadTipText">已切換至「主日慶典」，請依照聚會流程拖曳上傳對應檔案（可留空）。</span>
+        </div>
+
+        <div class="upload-grid" id="uploadGridContainer">
+          <div class="drop-card" id="card_sermon" data-key="sermon">
+            <div class="drop-card-title" id="title_sermon">① 信息 PPT</div>
+            <div class="drop-card-desc">拖曳更換或點擊選取</div>
+            <div class="drop-card-file" id="name_sermon"></div>
+            <input type="file" id="file_sermon" accept=".ppt,.pptx,.pdf" style="display:none">
+          </div>
+
+          <div class="drop-card" id="card_notice" data-key="notice">
+            <div class="drop-card-title" id="title_notice">② 報告事項</div>
+            <div class="drop-card-desc">拖曳更換或點擊選取</div>
+            <div class="drop-card-file" id="name_notice"></div>
+            <input type="file" id="file_notice" accept=".ppt,.pptx,.pdf" style="display:none">
+          </div>
+
+          <div class="drop-card" id="card_prayer" data-key="prayer">
+            <div class="drop-card-title" id="title_prayer">③ 禱告會 PPT</div>
+            <div class="drop-card-desc">拖曳更換或點擊選取</div>
+            <div class="drop-card-file" id="name_prayer"></div>
+            <input type="file" id="file_prayer" accept=".ppt,.pptx,.pdf" style="display:none">
+          </div>
+
+          <div class="drop-card" id="card_devotion" data-key="devotion">
+            <div class="drop-card-title" id="title_devotion">④ 親近主操練</div>
+            <div class="drop-card-desc">拖曳更換或點擊選取</div>
+            <div class="drop-card-file" id="name_devotion"></div>
+            <input type="file" id="file_devotion" accept=".ppt,.pptx,.pdf" style="display:none">
+          </div>
+
+          <div class="drop-card" id="card_scripture" data-key="scripture">
+            <div class="drop-card-title" id="title_scripture">① 前段釋經分享</div>
+            <div class="drop-card-desc">拖曳更換或點擊選取</div>
+            <div class="drop-card-file" id="name_scripture"></div>
+            <input type="file" id="file_scripture" accept=".ppt,.pptx,.pdf" style="display:none">
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">發布並同步至雲端</button>
+      </form>
+    </div>
   </div>
 
   <script>
     const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/1ND3z23MQeZIwgjLH5MKY208ETBUygiWCD78o4jPr2JM/gviz/tq?tqx=out:csv";
+    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbwgfaBoWMRyRGZEAfRA9mP-2et_uWXBTwuCir5qLMEfZrFQLNjOSq8ZRB71Kzgw38lA5Q/exec";
+    const ADMIN_PASSWORD = "7Jesus40";
 
     let sermonsData = [];
     let currentCategory = "全部";
     let currentSeries = "全部";
     let searchQuery = "";
+    let isAdmin = false;
+    let isEditingMode = false;
+
+    const uploadedFiles = {
+      cover: null,
+      sermon: null,
+      notice: null,
+      prayer: null,
+      devotion: null,
+      scripture: null
+    };
 
     const sermonGridEl = document.getElementById("sermonGrid");
     const searchInput = document.getElementById("searchInput");
@@ -749,6 +996,368 @@
     const dropdownTrigger = document.getElementById("dropdownTrigger");
     const dropdownCurrentLabel = document.getElementById("dropdownCurrentLabel");
     const dropdownMenu = document.getElementById("dropdownMenu");
+
+    const adminModal = document.getElementById("adminModal");
+    const openAdminBtn = document.getElementById("openAdminBtn");
+    const closeAdminBtn = document.getElementById("closeAdminBtn");
+    const addSermonForm = document.getElementById("addSermonForm");
+    const submitBtn = document.getElementById("submitBtn");
+    const modalTitle = document.getElementById("modalTitle");
+    const formCategory = document.getElementById("formCategory");
+    const uploadTipText = document.getElementById("uploadTipText");
+    const coverPreviewImg = document.getElementById("coverPreviewImg");
+
+    const topDynamicBtn = document.getElementById("topDynamicBtn");
+    const topBtnIcon = document.getElementById("topBtnIcon");
+    const topBtnLabel = document.getElementById("topBtnLabel");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    function showToast(message) {
+      let toast = document.getElementById("sysToast");
+      if (!toast) {
+        toast = document.createElement("div");
+        toast.id = "sysToast";
+        toast.className = "toast-notification";
+        document.body.appendChild(toast);
+      }
+      toast.innerHTML = `<span>✓</span><span>${message}</span>`;
+      toast.classList.add("show");
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 2200);
+    }
+
+    function updateTopNavUI() {
+      if (isAdmin) {
+        document.body.classList.add("is-admin");
+        topDynamicBtn.removeAttribute("href");
+        topDynamicBtn.title = "發布新影音 / 教材";
+        topBtnLabel.textContent = "新增影片";
+        topBtnIcon.innerHTML = `
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        `;
+      } else {
+        document.body.classList.remove("is-admin");
+        topDynamicBtn.href = "https://www.kszionch.org.tw/";
+        topDynamicBtn.title = "返回教會首頁";
+        topBtnLabel.textContent = "回主頁";
+        topBtnIcon.innerHTML = `
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        `;
+      }
+    }
+
+    topDynamicBtn.addEventListener("click", (e) => {
+      if (isAdmin) {
+        e.preventDefault();
+        openAddModal();
+      }
+    });
+
+    logoutBtn.addEventListener("click", () => {
+      isAdmin = false;
+      sessionStorage.removeItem("is_sermon_admin");
+      updateTopNavUI();
+      renderSermons();
+      showToast("已安全登出同工後台");
+    });
+
+    if (sessionStorage.getItem("is_sermon_admin") === "true") {
+      isAdmin = true;
+      updateTopNavUI();
+    }
+
+    openAdminBtn.addEventListener("click", () => {
+      if (isAdmin) {
+        openAddModal();
+      } else {
+        const pwd = prompt("請輸入同工管理密碼：");
+        if (pwd === ADMIN_PASSWORD) {
+          isAdmin = true;
+          sessionStorage.setItem("is_sermon_admin", "true");
+          updateTopNavUI();
+          renderSermons();
+          showToast("已進入管理員模式，右上角已切換為「新增影片」");
+        } else if (pwd !== null) {
+          alert("密碼不正確！");
+        }
+      }
+    });
+
+    ["cover", "sermon", "notice", "prayer", "devotion", "scripture"].forEach(key => {
+      const dropEl = document.getElementById(`drop_${key}`) || document.getElementById(`card_${key}`);
+      const inputEl = document.getElementById(`file_${key}`);
+      const nameEl = document.getElementById(`name_${key}`);
+
+      dropEl.addEventListener("click", () => inputEl.click());
+      dropEl.addEventListener("dragover", (e) => { e.preventDefault(); dropEl.classList.add("dragover"); });
+      dropEl.addEventListener("dragleave", () => { dropEl.classList.remove("dragover"); });
+      dropEl.addEventListener("drop", (e) => {
+        e.preventDefault();
+        dropEl.classList.remove("dragover");
+        if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+          handleFileSet(key, e.dataTransfer.files[0], nameEl);
+        }
+      });
+      inputEl.addEventListener("change", (e) => {
+        if (e.target.files && e.target.files.length > 0) {
+          handleFileSet(key, e.target.files[0], nameEl);
+        }
+      });
+    });
+
+    function handleFileSet(key, file, nameEl) {
+      uploadedFiles[key] = file;
+      nameEl.textContent = `✓ 已選：${file.name}`;
+      if (key === "cover" && file.type.startsWith("image/")) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          coverPreviewImg.src = e.target.result;
+          coverPreviewImg.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function updateUploadFieldsByCategory(cat) {
+      const cardSermon = document.getElementById("card_sermon");
+      const cardNotice = document.getElementById("card_notice");
+      const cardPrayer = document.getElementById("card_prayer");
+      const cardDevotion = document.getElementById("card_devotion");
+      const cardScripture = document.getElementById("card_scripture");
+
+      const titleSermon = document.getElementById("title_sermon");
+      const titleNotice = document.getElementById("title_notice");
+      const titlePrayer = document.getElementById("title_prayer");
+      const titleDevotion = document.getElementById("title_devotion");
+      const titleScripture = document.getElementById("title_scripture");
+
+      [cardSermon, cardNotice, cardPrayer, cardDevotion, cardScripture].forEach(el => {
+        el.style.display = "none";
+        el.style.order = "0";
+      });
+
+      if (cat === "主日慶典") {
+        uploadTipText.innerHTML = "已切換至「<strong>主日慶典</strong>」，提供 4 項聚會教材上傳（無檔案可留空）：";
+        cardSermon.style.display = "flex";
+        titleSermon.textContent = "① 信息 PPT";
+        cardSermon.style.order = "1";
+
+        cardNotice.style.display = "flex";
+        titleNotice.textContent = "② 報告事項";
+        cardNotice.style.order = "2";
+
+        cardPrayer.style.display = "flex";
+        titlePrayer.textContent = "③ 禱告會 PPT";
+        cardPrayer.style.order = "3";
+
+        cardDevotion.style.display = "flex";
+        titleDevotion.textContent = "④ 親近主操練";
+        cardDevotion.style.order = "4";
+
+      } else if (cat === "青年教會") {
+        uploadTipText.innerHTML = "已切換至「<strong>青年教會</strong>」，提供 2 項聚會教材上傳（無檔案可留空）：";
+        cardSermon.style.display = "flex";
+        titleSermon.textContent = "① 信息 PPT";
+        cardSermon.style.order = "1";
+
+        cardNotice.style.display = "flex";
+        titleNotice.textContent = "② 報告事項";
+        cardNotice.style.order = "2";
+
+      } else if (cat === "門徒禱告會及領袖班") {
+        uploadTipText.innerHTML = "已切換至「<strong>門徒禱告會及領袖班</strong>」，提供 3 項聚會教材上傳（無檔案可留空）：";
+        cardScripture.style.display = "flex";
+        titleScripture.textContent = "① 前段釋經分享";
+        cardScripture.style.order = "1";
+
+        cardSermon.style.display = "flex";
+        titleSermon.textContent = "② 後段信息 PPT";
+        cardSermon.style.order = "2";
+
+        cardPrayer.style.display = "flex";
+        titlePrayer.textContent = "③ 禱告會 PPT";
+        cardPrayer.style.order = "3";
+
+      } else {
+        uploadTipText.innerHTML = "通用聚會模式，顯示全部教材項目：";
+        [cardSermon, cardNotice, cardPrayer, cardDevotion, cardScripture].forEach(el => el.style.display = "flex");
+        titleSermon.textContent = "信息 PPT";
+        titleNotice.textContent = "報告事項";
+        titlePrayer.textContent = "禱告會 PPT";
+        titleDevotion.textContent = "親近主操練";
+        titleScripture.textContent = "釋經分享";
+      }
+    }
+
+    formCategory.addEventListener("change", (e) => {
+      updateUploadFieldsByCategory(e.target.value);
+    });
+
+    function fileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result.split(",")[1]);
+        reader.onerror = error => reject(error);
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function openAddModal() {
+      isEditingMode = false;
+      modalTitle.textContent = "發布新影音 / 教材";
+      submitBtn.textContent = "發布並同步至雲端";
+      addSermonForm.reset();
+      resetUploadedFiles();
+      document.getElementById("editRowIndex").value = "";
+      document.getElementById("editOldTitle").value = "";
+      document.getElementById("editOldYoutubeUrl").value = "";
+      document.getElementById("formDate").value = new Date().toISOString().split("T")[0];
+      formCategory.value = "主日慶典";
+      updateUploadFieldsByCategory("主日慶典");
+      adminModal.classList.add("open");
+    }
+
+    function resetUploadedFiles() {
+      ["cover", "sermon", "notice", "prayer", "devotion", "scripture"].forEach(k => {
+        uploadedFiles[k] = null;
+        document.getElementById(`name_${k}`).textContent = "";
+      });
+      coverPreviewImg.src = "";
+      coverPreviewImg.style.display = "none";
+    }
+
+    closeAdminBtn.addEventListener("click", () => {
+      adminModal.classList.remove("open");
+    });
+
+    function startEdit(item) {
+      isEditingMode = true;
+      modalTitle.textContent = "編輯主日信息 / 檔案";
+      submitBtn.textContent = "儲存修改並更新雲端";
+      resetUploadedFiles();
+
+      document.getElementById("editRowIndex").value = item._rowIndex || "";
+      document.getElementById("editOldTitle").value = item.title || "";
+      document.getElementById("editOldYoutubeUrl").value = item.youtube_url || "";
+
+      document.getElementById("formTitle").value = item.title || "";
+      document.getElementById("formSpeaker").value = item.speaker || "";
+      document.getElementById("formDate").value = item.date || "";
+      document.getElementById("formYoutube").value = item.youtube_url || "";
+      document.getElementById("formCategory").value = item.category || "主日慶典";
+      document.getElementById("formSeries").value = item.series || "";
+
+      document.getElementById("existingCoverUrl").value = item.cover_image || "";
+      document.getElementById("existingSermonUrl").value = item.sermon_ppt || "";
+      document.getElementById("existingNoticeUrl").value = item.notice_url || "";
+      document.getElementById("existingPrayerUrl").value = item.prayer_ppt || "";
+      document.getElementById("existingDevotionUrl").value = item.devotion_url || "";
+      document.getElementById("existingScriptureUrl").value = item.scripture_share || "";
+
+      if (item.cover_image) {
+        document.getElementById("name_cover").textContent = "(保留原自訂封面)";
+        coverPreviewImg.src = formatDriveImageDirectUrl(item.cover_image);
+        coverPreviewImg.style.display = "block";
+      }
+      if (item.sermon_ppt) document.getElementById("name_sermon").textContent = "(保留原檔案)";
+      if (item.notice_url) document.getElementById("name_notice").textContent = "(保留原檔案)";
+      if (item.prayer_ppt) document.getElementById("name_prayer").textContent = "(保留原檔案)";
+      if (item.devotion_url) document.getElementById("name_devotion").textContent = "(保留原檔案)";
+      if (item.scripture_share) document.getElementById("name_scripture").textContent = "(保留原檔案)";
+
+      updateUploadFieldsByCategory(item.category || "主日慶典");
+      adminModal.classList.add("open");
+    }
+
+    async function startDelete(item) {
+      const confirmDelete = confirm(`確定要永久刪除「${item.title}」嗎？\n此動作將同步從 Google 試算表中移除。`);
+      if (!confirmDelete) return;
+
+      try {
+        await fetch(GAS_API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({
+            action: "delete",
+            rowIndex: item._rowIndex,
+            title: item.title,
+            youtube_url: item.youtube_url
+          })
+        });
+
+        showToast("✓ 刪除成功！試算表已同步更新");
+        setTimeout(fetchSermonData, 1200);
+      } catch (err) {
+        console.error("刪除失敗：", err);
+        alert("刪除失敗，請檢查網路連線。");
+      }
+    }
+
+    addSermonForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      submitBtn.disabled = true;
+      submitBtn.textContent = "資料同步處理中，請稍候...";
+
+      try {
+        const payload = {
+          action: isEditingMode ? "edit" : "create",
+          rowIndex: document.getElementById("editRowIndex").value ? parseInt(document.getElementById("editRowIndex").value) : null,
+          old_title: document.getElementById("editOldTitle").value,
+          old_youtube_url: document.getElementById("editOldYoutubeUrl").value,
+          title: document.getElementById("formTitle").value.trim(),
+          speaker: document.getElementById("formSpeaker").value.trim(),
+          date: document.getElementById("formDate").value.trim(),
+          youtube_url: document.getElementById("formYoutube").value.trim(),
+          category: document.getElementById("formCategory").value.trim(),
+          series: document.getElementById("formSeries").value.trim(),
+          cover_image: document.getElementById("existingCoverUrl").value,
+          sermon_ppt: document.getElementById("existingSermonUrl").value,
+          notice_url: document.getElementById("existingNoticeUrl").value,
+          prayer_ppt: document.getElementById("existingPrayerUrl").value,
+          devotion_url: document.getElementById("existingDevotionUrl").value,
+          scripture_share: document.getElementById("existingScriptureUrl").value
+        };
+
+        for (const key of ["cover", "sermon", "notice", "prayer", "devotion", "scripture"]) {
+          if (uploadedFiles[key]) {
+            const b64 = await fileToBase64(uploadedFiles[key]);
+            payload[`file_${key}`] = {
+              name: uploadedFiles[key].name,
+              type: uploadedFiles[key].type,
+              data: b64
+            };
+          }
+        }
+
+        const res = await fetch(GAS_API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await res.json();
+        if (result.result === "error") {
+          alert("更新失敗：" + result.message);
+          return;
+        }
+
+        adminModal.classList.remove("open");
+        addSermonForm.reset();
+        resetUploadedFiles();
+        showToast(isEditingMode ? "修改成功！雲端已同步更新" : "發布成功！已新增至雲端");
+
+        setTimeout(fetchSermonData, 1200);
+      } catch (err) {
+        console.error("處理失敗：", err);
+        alert("連線時發生異常，請檢查網路連線。");
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = isEditingMode ? "儲存修改並更新雲端" : "發布並同步至雲端";
+      }
+    });
 
     dropdownTrigger.addEventListener("click", (e) => {
       e.stopPropagation();
@@ -762,17 +1371,10 @@
           e.stopPropagation();
           items.forEach(i => i.classList.remove("active"));
           item.classList.add("active");
-
           const val = item.dataset.value;
           currentSeries = val;
           dropdownCurrentLabel.textContent = item.textContent.replace("✓", "").trim();
-
-          if (val !== "全部") {
-            dropdownTrigger.classList.add("has-value");
-          } else {
-            dropdownTrigger.classList.remove("has-value");
-          }
-
+          dropdownTrigger.classList.toggle("has-value", val !== "全部");
           seriesDropdown.classList.remove("open");
           renderSermons();
         };
@@ -785,16 +1387,20 @@
     });
 
     function syncSeriesListFromData(data) {
-      const existingOptions = new Set(["全部", "內在生活", "受洗課程", "門徒訓練", "曠野歷程", "以弗所書系列", "其他"]);
+      const existingOptions = new Set(["全部", "全部主題系列", "內在生活", "受洗課程", "門徒訓練", "曠野歷程", "以弗所書系列", "其他"]);
       const mainCategories = new Set(["主日慶典", "青年教會", "門徒禱告會及領袖班"]);
-      
       const newSeriesFound = new Set();
+
       data.forEach(item => {
         const s = (item.series || "").trim();
         const c = (item.category || "").trim();
 
-        if (s && !existingOptions.has(s)) newSeriesFound.add(s);
-        if (c && !mainCategories.has(c) && !existingOptions.has(c)) newSeriesFound.add(c);
+        if (s && s.length > 0 && !existingOptions.has(s)) {
+          newSeriesFound.add(s);
+        }
+        if (c && c.length > 0 && !mainCategories.has(c) && !existingOptions.has(c)) {
+          newSeriesFound.add(c);
+        }
       });
 
       if (newSeriesFound.size > 0) {
@@ -812,13 +1418,11 @@
     function parseCSV(csvText) {
       const lines = csvText.trim().split("\n");
       if (lines.length < 2) return [];
-
       const headers = lines[0].split(",").map(h => h.trim().replace(/^"|"$/g, ""));
       const result = [];
       for (let i = 1; i < lines.length; i++) {
         const line = lines[i].trim();
         if (!line) continue;
-
         const values = [];
         let match;
         const regex = /(?:,|\n|^)("(?:(?:"")*[^"]*)*"|[^",\n]*|(?:\n|$))/g;
@@ -827,8 +1431,7 @@
           val = val.replace(/^"|"$/g, "").replace(/""/g, '"').trim();
           values.push(val);
         }
-
-        const item = {};
+        const item = { _rowIndex: i + 1 };
         headers.forEach((header, index) => {
           item[header] = values[index] || "";
         });
@@ -844,15 +1447,23 @@
 
     function getYoutubeId(url) {
       if (!url) return null;
-      // 優先排除純清單連結
       if (url.includes("playlist?list=")) return null;
       const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
       return match ? match[1] : null;
     }
 
+    function formatDriveImageDirectUrl(url) {
+      if (!url || url.trim() === "") return "";
+      const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
+      if (match && match[1]) {
+        return `https://drive.google.com/thumbnail?sz=w1280&id=${match[1]}`;
+      }
+      return url;
+    }
+
     function formatDriveDirectUrl(url) {
       if (!url || url.trim() === "") return null;
-      const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+      const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
       if (match && match[1]) {
         const fileId = match[1];
         const directStreamUrl = encodeURIComponent(`https://drive.google.com/uc?export=download&id=${fileId}`);
@@ -863,27 +1474,19 @@
 
     function createButtonsHtml(item) {
       const sermonLink = formatDriveDirectUrl(item.sermon_ppt);
-      const scriptureLink = formatDriveDirectUrl(item.scripture_share);
-      const prayerLink = formatDriveDirectUrl(item.prayer_ppt);
       const noticeLink = formatDriveDirectUrl(item.notice_url);
+      const prayerLink = formatDriveDirectUrl(item.prayer_ppt);
+      const devotionLink = formatDriveDirectUrl(item.devotion_url);
+      const scriptureLink = formatDriveDirectUrl(item.scripture_share);
 
       let buttons = "";
-
-      if (sermonLink) {
-        buttons += `<a class="file-btn btn-sermon" href="${sermonLink}" target="_blank" rel="noopener">信息 PPT</a>`;
-      }
-      if (scriptureLink) {
-        buttons += `<a class="file-btn btn-scripture" href="${scriptureLink}" target="_blank" rel="noopener">釋經分享</a>`;
-      }
-      if (prayerLink) {
-        buttons += `<a class="file-btn btn-prayer" href="${prayerLink}" target="_blank" rel="noopener">禱告會 PPT</a>`;
-      }
-      if (noticeLink) {
-        buttons += `<a class="file-btn btn-notice" href="${noticeLink}" target="_blank" rel="noopener">報告事項</a>`;
-      }
+      if (sermonLink) buttons += `<a class="file-btn btn-sermon" href="${sermonLink}" target="_blank" rel="noopener">信息 PPT</a>`;
+      if (noticeLink) buttons += `<a class="file-btn btn-notice" href="${noticeLink}" target="_blank" rel="noopener">報告事項</a>`;
+      if (prayerLink) buttons += `<a class="file-btn btn-prayer" href="${prayerLink}" target="_blank" rel="noopener">禱告會 PPT</a>`;
+      if (devotionLink) buttons += `<a class="file-btn btn-devotion" href="${devotionLink}" target="_blank" rel="noopener">親近主操練</a>`;
+      if (scriptureLink) buttons += `<a class="file-btn btn-scripture" href="${scriptureLink}" target="_blank" rel="noopener">釋經分享</a>`;
 
       if (!buttons) return "";
-
       return `
         <div class="downloads-wrapper">
           <div class="downloads-title">檔案查看與下載</div>
@@ -894,81 +1497,61 @@
 
     function renderSermons() {
       sermonGridEl.innerHTML = "";
-
       const query = searchQuery.trim().toLowerCase();
 
       const filtered = sermonsData.filter(item => {
         const itemCat = (item.category || "").trim();
         const itemSer = (item.series || "").trim();
-
-        const matchCategory = (currentCategory === "全部") || 
-                              (itemCat === currentCategory) || 
-                              (itemSer === currentCategory);
-
-        const matchSeries = (currentSeries === "全部") || 
-                            (itemSer === currentSeries) || 
-                            (itemCat === currentSeries);
-
+        const matchCategory = (currentCategory === "全部") || (itemCat === currentCategory) || (itemSer === currentCategory);
+        const matchSeries = (currentSeries === "全部") || (itemSer === currentSeries) || (itemCat === currentSeries);
         const combinedText = `${item.title || ""} ${item.speaker || ""} ${item.date || ""} ${itemSer} ${itemCat}`.toLowerCase();
-        const matchSearch = query === "" || combinedText.includes(query);
-
-        return matchCategory && matchSeries && matchSearch;
+        return matchCategory && matchSeries && (query === "" || combinedText.includes(query));
       });
 
       if (filtered.length === 0) {
-        sermonGridEl.innerHTML = `<div class="empty-state">查無符合條件的影音或教材，請嘗試其他關鍵字或切換系列。</div>`;
+        sermonGridEl.innerHTML = `<div class="empty-state">查無符合條件的影音或教材。</div>`;
         return;
       }
 
-      filtered.forEach(item => {
+      filtered.forEach((item, index) => {
         const isPlaylist = isPlaylistUrl(item.youtube_url);
         const videoId = getYoutubeId(item.youtube_url);
-
+        const customCover = formatDriveImageDirectUrl(item.cover_image);
         let mediaThumbHtml = "";
 
-        if (videoId) {
-          // 一般影片：直接使用 YouTube 高畫質縮圖，並加入防破圖處理
+        if (customCover) {
+          mediaThumbHtml = `
+            <img class="thumb-img" src="${customCover}" alt="${item.title}" onerror="this.src='https://img.youtube.com/vi/${videoId || ''}/hqdefault.jpg';" />
+            <div class="play-button-overlay"><div class="play-icon"></div></div>
+            ${isPlaylist ? `<div class="playlist-badge">播放清單</div>` : ""}
+          `;
+        } else if (videoId) {
           const thumbUrl = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
           mediaThumbHtml = `
             <img class="thumb-img" src="${thumbUrl}" alt="${item.title}" onerror="this.parentElement.innerHTML='<div class=\\'playlist-cover-bg\\'><div class=\\'playlist-cover-title\\'>${item.title}</div></div>';" />
-            <div class="play-button-overlay">
-              <div class="play-icon"></div>
-            </div>
+            <div class="play-button-overlay"><div class="play-icon"></div></div>
           `;
         } else if (isPlaylist) {
-          // 播放清單：採用專屬漸層典雅封面，完美避免破圖
           mediaThumbHtml = `
             <div class="playlist-cover-bg">
               <div class="playlist-cover-title">${item.title}</div>
               <div class="playlist-cover-sub">專題全系列播放清單</div>
             </div>
-            <div class="play-button-overlay">
-              <div class="play-icon"></div>
-            </div>
-            <div class="playlist-badge">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="8" y1="6" x2="21" y2="6"></line>
-                <line x1="8" y1="12" x2="21" y2="12"></line>
-                <line x1="8" y1="18" x2="21" y2="18"></line>
-                <line x1="3" y1="6" x2="3.01" y2="6"></line>
-                <line x1="3" y1="12" x2="3.01" y2="12"></line>
-                <line x1="3" y1="18" x2="3.01" y2="18"></line>
-              </svg>
-              播放清單
-            </div>
+            <div class="play-button-overlay"><div class="play-icon"></div></div>
+            <div class="playlist-badge">播放清單</div>
           `;
         } else {
-          // 無影片或無法識別
-          mediaThumbHtml = `
-            <div class="playlist-cover-bg">
-              <div class="playlist-cover-title">${item.title}</div>
-            </div>
-          `;
+          mediaThumbHtml = `<div class="playlist-cover-bg"><div class="playlist-cover-title">${item.title}</div></div>`;
         }
 
         const card = document.createElement("article");
         card.className = "sermon-card";
         card.innerHTML = `
+          <div class="admin-card-actions">
+            <button class="btn-action-pill btn-action-edit" data-idx="${index}">✏️ 編輯</button>
+            <button class="btn-action-pill btn-action-delete" data-idx="${index}">🗑️ 刪除</button>
+          </div>
+
           <div class="thumb-wrapper">
             <a href="${item.youtube_url || '#'}" target="_blank" rel="noopener" style="display:block; width:100%; height:100%; text-decoration:none;">
               ${mediaThumbHtml}
@@ -985,16 +1568,18 @@
               
               <div class="title-row">
                 <h2 class="card-title">${item.title}</h2>
-                ${item.speaker ? `
-                  <span class="card-speaker">
-                    <span class="speaker-divider">｜</span>講員：${item.speaker}
-                  </span>
-                ` : ""}
+                ${item.speaker ? `<span class="card-speaker"><span class="speaker-divider">｜</span>講員：${item.speaker}</span>` : ""}
               </div>
             </div>
             ${createButtonsHtml(item)}
           </div>
         `;
+
+        const editBtn = card.querySelector(".btn-action-edit");
+        const deleteBtn = card.querySelector(".btn-action-delete");
+        editBtn.addEventListener("click", () => startEdit(item));
+        deleteBtn.addEventListener("click", () => startDelete(item));
+
         sermonGridEl.appendChild(card);
       });
     }
@@ -1025,12 +1610,11 @@
     async function fetchSermonData() {
       sermonGridEl.innerHTML = `<div class="empty-state">精彩影音載入中...</div>`;
       try {
-        const response = await fetch(GOOGLE_SHEET_CSV_URL);
+        const cacheBuster = "&_t=" + Date.now();
+        const response = await fetch(GOOGLE_SHEET_CSV_URL + cacheBuster);
         if (!response.ok) throw new Error("讀取試算表失敗");
-        
         const csvText = await response.text();
         sermonsData = parseCSV(csvText);
-
         syncSeriesListFromData(sermonsData);
         renderSermons();
       } catch (error) {
