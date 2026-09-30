@@ -530,40 +530,7 @@
       font-size: 1rem;
     }
 
-    .btn-floating-admin {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.88);
-      border: 1px solid var(--border-subtle);
-      color: #a1a1aa;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-      backdrop-filter: blur(6px);
-      transition: all 0.25s ease;
-      z-index: 100;
-      opacity: 0.6;
-    }
-    .btn-floating-admin:hover {
-      opacity: 1;
-      color: #18181b;
-      border-color: #a1a1aa;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
-    }
-    body.is-admin .btn-floating-admin {
-      background: #18181b;
-      color: #ffffff;
-      opacity: 0.95;
-      border-color: #18181b;
-    }
-
+    /* 浮動微通知 Toast */
     .toast-notification {
       position: fixed;
       top: 24px;
@@ -589,6 +556,7 @@
       transform: translateX(-50%) translateY(0);
     }
 
+    /* Modal */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -768,7 +736,6 @@
       .dropdown-trigger { padding: 5px 10px; font-size: 0.8rem; }
       .sermon-grid { grid-template-columns: 1fr; gap: 18px; }
       .form-row, .upload-grid { grid-template-columns: 1fr; }
-      .btn-floating-admin { bottom: 16px; right: 16px; width: 36px; height: 36px; }
     }
   </style>
 </head>
@@ -844,13 +811,6 @@
     <div class="sermon-grid" id="sermonGrid"></div>
   </div>
 
-  <button class="btn-floating-admin" id="openAdminBtn" title="同工管理">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-      <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-    </svg>
-  </button>
-
   <!-- 後台彈出視窗 (Modal) -->
   <div class="modal-overlay" id="adminModal">
     <div class="modal-box">
@@ -870,7 +830,6 @@
         <input type="hidden" id="existingDevotionUrl" value="">
         <input type="hidden" id="existingScriptureUrl" value="">
 
-        <!-- 淺灰色 placeholder 全部已清除 -->
         <div class="form-group">
           <label>講道題目 / 系列名稱 *</label>
           <input type="text" id="formTitle" class="form-control" required>
@@ -998,7 +957,6 @@
     const dropdownMenu = document.getElementById("dropdownMenu");
 
     const adminModal = document.getElementById("adminModal");
-    const openAdminBtn = document.getElementById("openAdminBtn");
     const closeAdminBtn = document.getElementById("closeAdminBtn");
     const addSermonForm = document.getElementById("addSermonForm");
     const submitBtn = document.getElementById("submitBtn");
@@ -1062,26 +1020,45 @@
       updateTopNavUI();
       renderSermons();
       showToast("已安全登出同工後台");
+      if (window.location.search || window.location.hash) {
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
     });
+
+    // 極簡暗號判定：網址包含 ?a 或 #a 即觸發同工登入
+    const currentUrl = window.location.href.toLowerCase();
+    const hasAdminCode = currentUrl.includes("?a") || currentUrl.includes("#a");
 
     if (sessionStorage.getItem("is_sermon_admin") === "true") {
       isAdmin = true;
       updateTopNavUI();
-    }
-
-    openAdminBtn.addEventListener("click", () => {
-      if (isAdmin) {
-        openAddModal();
-      } else {
+    } else if (hasAdminCode) {
+      setTimeout(() => {
         const pwd = prompt("請輸入同工管理密碼：");
         if (pwd === ADMIN_PASSWORD) {
           isAdmin = true;
           sessionStorage.setItem("is_sermon_admin", "true");
           updateTopNavUI();
           renderSermons();
-          showToast("已進入管理員模式，右上角已切換為「新增影片」");
+          showToast("已進入管理模式，右上角已解鎖「新增影片」");
         } else if (pwd !== null) {
           alert("密碼不正確！");
+        }
+      }, 200);
+    }
+
+    // 鍵盤備用密技：按下 Ctrl+Alt+A 亦可叫出密碼框
+    window.addEventListener("keydown", (e) => {
+      if (e.ctrlKey && e.altKey && (e.key === "a" || e.key === "A")) {
+        if (!isAdmin) {
+          const pwd = prompt("請輸入同工管理密碼：");
+          if (pwd === ADMIN_PASSWORD) {
+            isAdmin = true;
+            sessionStorage.setItem("is_sermon_admin", "true");
+            updateTopNavUI();
+            renderSermons();
+            showToast("已進入管理模式");
+          }
         }
       }
     });
