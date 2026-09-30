@@ -4,11 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>主日影音與檔案下載</title>
-  <link rel="icon" type="image/png" href="logo.png">
+  
   <!-- 替換瀏覽器分頁小圖示 (加上版本號強制打破快取) -->
   <link rel="icon" type="image/png" href="logo.png?v=2">
   <link rel="shortcut icon" type="image/png" href="logo.png?v=2">
   <link rel="apple-touch-icon" href="logo.png?v=2">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -623,12 +624,18 @@
       font-size: 0.88rem;
       outline: none;
       transition: border-color 0.2s;
+      font-family: inherit;
+      background: #ffffff;
     }
     .form-control:focus { border-color: #18181b; }
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
+    }
+
+    input[type="date"].form-control {
+      cursor: pointer;
     }
 
     .upload-tip-banner {
@@ -846,8 +853,8 @@
             <input type="text" id="formSpeaker" class="form-control">
           </div>
           <div class="form-group">
-            <label>日期 (YYYY-MM-DD)</label>
-            <input type="text" id="formDate" class="form-control">
+            <label>日期 (點擊選取日期)</label>
+            <input type="date" id="formDate" class="form-control">
           </div>
         </div>
 
@@ -867,26 +874,31 @@
             </select>
           </div>
           <div class="form-group">
-            <label>主題系列 (選填)</label>
-            <input type="text" id="formSeries" class="form-control">
+            <label>主題系列 (選填，可點箭頭選擇或自行輸入)</label>
+            <input type="text" id="formSeries" class="form-control" list="seriesOptionsList" autocomplete="off">
+            <datalist id="seriesOptionsList">
+              <option value="內在生活">
+              <option value="受洗課程">
+              <option value="門徒訓練">
+              <option value="曠野歷程">
+              <option value="以弗所書系列">
+              <option value="其他">
+            </datalist>
           </div>
         </div>
 
         <!-- 封面縮圖修改/自訂區 -->
-        <div class="form-group">
-          <label>自訂封面縮圖（支援 .jpg, .png, .webp）</label>
-          <div class="drop-card cover-theme" id="drop_cover">
-            <div class="drop-card-title">🖼️ 自訂卡片封面</div>
-            <div class="drop-card-desc">拖曳圖片至此或點擊選取（若不自訂，將自動抓取 YouTube 縮圖）</div>
-            <img id="coverPreviewImg" class="cover-preview-img" alt="封面預覽">
-            <div class="drop-card-file" id="name_cover"></div>
-            <input type="file" id="file_cover" accept="image/*" style="display:none">
-          </div>
+        <div class="drop-card cover-theme" id="drop_cover" style="margin-bottom: 14px;">
+          <div class="drop-card-title">🖼️ 自訂卡片封面</div>
+          <div class="drop-card-desc">拖曳圖片至此或點擊選取（若不自訂，將自動抓取 YouTube 縮圖）</div>
+          <img id="coverPreviewImg" class="cover-preview-img" alt="封面預覽">
+          <div class="drop-card-file" id="name_cover"></div>
+          <input type="file" id="file_cover" accept="image/*" style="display:none">
         </div>
 
         <div class="upload-tip-banner" id="uploadTipBanner">
           <span class="upload-tip-icon">💡</span>
-          <span id="uploadTipText">已切換至「主日慶典」，請依照聚會流程拖曳上傳對應檔案（可留空）。</span>
+          <span id="uploadTipText">已切換至「主日慶典」，提供 4 項聚會教材上傳（無檔案可留空）：</span>
         </div>
 
         <div class="upload-grid" id="uploadGridContainer">
@@ -897,8 +909,9 @@
             <input type="file" id="file_sermon" accept=".ppt,.pptx,.pdf" style="display:none">
           </div>
 
+          <!-- 主日慶典為「主日週報」，青年教會為「報告事項」 -->
           <div class="drop-card" id="card_notice" data-key="notice">
-            <div class="drop-card-title" id="title_notice">② 報告事項</div>
+            <div class="drop-card-title" id="title_notice">② 主日週報</div>
             <div class="drop-card-desc">拖曳更換或點擊選取</div>
             <div class="drop-card-file" id="name_notice"></div>
             <input type="file" id="file_notice" accept=".ppt,.pptx,.pdf" style="display:none">
@@ -1030,7 +1043,6 @@
       }
     });
 
-    // 極簡暗號判定：網址包含 ?a 或 #a 即觸發同工登入
     const currentUrl = window.location.href.toLowerCase();
     const hasAdminCode = currentUrl.includes("?a") || currentUrl.includes("#a");
 
@@ -1052,7 +1064,6 @@
       }, 200);
     }
 
-    // 鍵盤備用密技：按下 Ctrl+Alt+A 亦可叫出密碼框
     window.addEventListener("keydown", (e) => {
       if (e.ctrlKey && e.altKey && (e.key === "a" || e.key === "A")) {
         if (!isAdmin) {
@@ -1103,6 +1114,7 @@
       }
     }
 
+    // 分類聯動：主日慶典顯示「② 主日週報」，青年教會顯示「② 報告事項」
     function updateUploadFieldsByCategory(cat) {
       const cardSermon = document.getElementById("card_sermon");
       const cardNotice = document.getElementById("card_notice");
@@ -1128,7 +1140,7 @@
         cardSermon.style.order = "1";
 
         cardNotice.style.display = "flex";
-        titleNotice.textContent = "② 報告事項";
+        titleNotice.textContent = "② 主日週報"; // 改為主日週報
         cardNotice.style.order = "2";
 
         cardPrayer.style.display = "flex";
@@ -1146,7 +1158,7 @@
         cardSermon.style.order = "1";
 
         cardNotice.style.display = "flex";
-        titleNotice.textContent = "② 報告事項";
+        titleNotice.textContent = "② 報告事項"; // 青年教會維持報告事項
         cardNotice.style.order = "2";
 
       } else if (cat === "門徒禱告會及領袖班") {
@@ -1167,7 +1179,7 @@
         uploadTipText.innerHTML = "通用聚會模式，顯示全部教材項目：";
         [cardSermon, cardNotice, cardPrayer, cardDevotion, cardScripture].forEach(el => el.style.display = "flex");
         titleSermon.textContent = "信息 PPT";
-        titleNotice.textContent = "報告事項";
+        titleNotice.textContent = "主日週報 / 報告事項";
         titlePrayer.textContent = "禱告會 PPT";
         titleDevotion.textContent = "親近主操練";
         titleScripture.textContent = "釋經分享";
@@ -1227,7 +1239,10 @@
 
       document.getElementById("formTitle").value = item.title || "";
       document.getElementById("formSpeaker").value = item.speaker || "";
-      document.getElementById("formDate").value = item.date || "";
+      
+      const rawDate = (item.date || "").trim();
+      document.getElementById("formDate").value = rawDate;
+
       document.getElementById("formYoutube").value = item.youtube_url || "";
       document.getElementById("formCategory").value = item.category || "主日慶典";
       document.getElementById("formSeries").value = item.series || "";
@@ -1386,12 +1401,19 @@
       });
 
       if (newSeriesFound.size > 0) {
+        const datalist = document.getElementById("seriesOptionsList");
         newSeriesFound.forEach(val => {
           const li = document.createElement("li");
           li.className = "dropdown-item";
           li.dataset.value = val;
           li.textContent = val;
           dropdownMenu.appendChild(li);
+
+          if (datalist) {
+            const opt = document.createElement("option");
+            opt.value = val;
+            datalist.appendChild(opt);
+          }
         });
         bindDropdownItemEvents();
       }
@@ -1454,6 +1476,7 @@
       return url;
     }
 
+    // 前台卡片按鈕產生：主日慶典顯示「主日週報」，青年教會顯示「報告事項」
     function createButtonsHtml(item) {
       const sermonLink = formatDriveDirectUrl(item.sermon_ppt);
       const noticeLink = formatDriveDirectUrl(item.notice_url);
@@ -1461,9 +1484,11 @@
       const devotionLink = formatDriveDirectUrl(item.devotion_url);
       const scriptureLink = formatDriveDirectUrl(item.scripture_share);
 
+      const noticeLabel = (item.category === "主日慶典") ? "主日週報" : "報告事項";
+
       let buttons = "";
       if (sermonLink) buttons += `<a class="file-btn btn-sermon" href="${sermonLink}" target="_blank" rel="noopener">信息 PPT</a>`;
-      if (noticeLink) buttons += `<a class="file-btn btn-notice" href="${noticeLink}" target="_blank" rel="noopener">報告事項</a>`;
+      if (noticeLink) buttons += `<a class="file-btn btn-notice" href="${noticeLink}" target="_blank" rel="noopener">${noticeLabel}</a>`;
       if (prayerLink) buttons += `<a class="file-btn btn-prayer" href="${prayerLink}" target="_blank" rel="noopener">禱告會 PPT</a>`;
       if (devotionLink) buttons += `<a class="file-btn btn-devotion" href="${devotionLink}" target="_blank" rel="noopener">親近主操練</a>`;
       if (scriptureLink) buttons += `<a class="file-btn btn-scripture" href="${scriptureLink}" target="_blank" rel="noopener">釋經分享</a>`;
