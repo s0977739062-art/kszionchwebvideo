@@ -909,7 +909,6 @@
             <input type="file" id="file_sermon" accept=".ppt,.pptx,.pdf" style="display:none">
           </div>
 
-          <!-- 主日慶典為「主日週報」，青年教會為「報告事項」 -->
           <div class="drop-card" id="card_notice" data-key="notice">
             <div class="drop-card-title" id="title_notice">② 主日週報</div>
             <div class="drop-card-desc">拖曳更換或點擊選取</div>
@@ -949,6 +948,9 @@
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbwgfaBoWMRyRGZEAfRA9mP-2et_uWXBTwuCir5qLMEfZrFQLNjOSq8ZRB71Kzgw38lA5Q/exec";
     const ADMIN_PASSWORD = "7Jesus40";
 
+    // 青年教會預設封面檔名（位於網站根目錄第一層）
+    const YOUTH_DEFAULT_COVER = "church封面.png";
+
     let sermonsData = [];
     let currentCategory = "全部";
     let currentSeries = "全部";
@@ -979,6 +981,7 @@
     const addSermonForm = document.getElementById("addSermonForm");
     const submitBtn = document.getElementById("submitBtn");
     const modalTitle = document.getElementById("modalTitle");
+    const formTitle = document.getElementById("formTitle");
     const formCategory = document.getElementById("formCategory");
     const uploadTipText = document.getElementById("uploadTipText");
     const coverPreviewImg = document.getElementById("coverPreviewImg");
@@ -1114,7 +1117,7 @@
       }
     }
 
-    // 分類聯動：主日慶典顯示「② 主日週報」，青年教會顯示「② 報告事項」
+    // 分類聯動：智慧判斷青年教會的預設標題與專屬封面
     function updateUploadFieldsByCategory(cat) {
       const cardSermon = document.getElementById("card_sermon");
       const cardNotice = document.getElementById("card_notice");
@@ -1128,6 +1131,9 @@
       const titleDevotion = document.getElementById("title_devotion");
       const titleScripture = document.getElementById("title_scripture");
 
+      const nameCover = document.getElementById("name_cover");
+      const existingCoverUrl = document.getElementById("existingCoverUrl");
+
       [cardSermon, cardNotice, cardPrayer, cardDevotion, cardScripture].forEach(el => {
         el.style.display = "none";
         el.style.order = "0";
@@ -1140,7 +1146,7 @@
         cardSermon.style.order = "1";
 
         cardNotice.style.display = "flex";
-        titleNotice.textContent = "② 主日週報"; // 改為主日週報
+        titleNotice.textContent = "② 主日週報";
         cardNotice.style.order = "2";
 
         cardPrayer.style.display = "flex";
@@ -1151,6 +1157,17 @@
         titleDevotion.textContent = "④ 親近主操練";
         cardDevotion.style.order = "4";
 
+        // 非編輯模式下，若之前是青年教會預設標題與封面，切回時自動清除
+        if (!isEditingMode) {
+          if (formTitle.value === "青年教會直播") formTitle.value = "";
+          if (existingCoverUrl.value === YOUTH_DEFAULT_COVER) {
+            existingCoverUrl.value = "";
+            nameCover.textContent = "";
+            coverPreviewImg.src = "";
+            coverPreviewImg.style.display = "none";
+          }
+        }
+
       } else if (cat === "青年教會") {
         uploadTipText.innerHTML = "已切換至「<strong>青年教會</strong>」，提供 2 項聚會教材上傳（無檔案可留空）：";
         cardSermon.style.display = "flex";
@@ -1158,8 +1175,21 @@
         cardSermon.style.order = "1";
 
         cardNotice.style.display = "flex";
-        titleNotice.textContent = "② 報告事項"; // 青年教會維持報告事項
+        titleNotice.textContent = "② 報告事項";
         cardNotice.style.order = "2";
+
+        // 新增模式下自動預設標題與專屬預設封面
+        if (!isEditingMode) {
+          if (!formTitle.value || formTitle.value.trim() === "") {
+            formTitle.value = "青年教會直播";
+          }
+          if (!uploadedFiles.cover && (!existingCoverUrl.value || existingCoverUrl.value === YOUTH_DEFAULT_COVER)) {
+            existingCoverUrl.value = YOUTH_DEFAULT_COVER;
+            nameCover.textContent = `✓ 已預設套用：${YOUTH_DEFAULT_COVER}`;
+            coverPreviewImg.src = YOUTH_DEFAULT_COVER;
+            coverPreviewImg.style.display = "block";
+          }
+        }
 
       } else if (cat === "門徒禱告會及領袖班") {
         uploadTipText.innerHTML = "已切換至「<strong>門徒禱告會及領袖班</strong>」，提供 3 項聚會教材上傳（無檔案可留空）：";
@@ -1174,6 +1204,16 @@
         cardPrayer.style.display = "flex";
         titlePrayer.textContent = "③ 禱告會 PPT";
         cardPrayer.style.order = "3";
+
+        if (!isEditingMode) {
+          if (formTitle.value === "青年教會直播") formTitle.value = "";
+          if (existingCoverUrl.value === YOUTH_DEFAULT_COVER) {
+            existingCoverUrl.value = "";
+            nameCover.textContent = "";
+            coverPreviewImg.src = "";
+            coverPreviewImg.style.display = "none";
+          }
+        }
 
       } else {
         uploadTipText.innerHTML = "通用聚會模式，顯示全部教材項目：";
@@ -1458,6 +1498,10 @@
 
     function formatDriveImageDirectUrl(url) {
       if (!url || url.trim() === "") return "";
+      // 若是本地圖片檔名，直接返回
+      if (url === YOUTH_DEFAULT_COVER || (!url.startsWith("http://") && !url.startsWith("https://"))) {
+        return url;
+      }
       const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
       if (match && match[1]) {
         return `https://drive.google.com/thumbnail?sz=w1280&id=${match[1]}`;
@@ -1476,7 +1520,6 @@
       return url;
     }
 
-    // 前台卡片按鈕產生：主日慶典顯示「主日週報」，青年教會顯示「報告事項」
     function createButtonsHtml(item) {
       const sermonLink = formatDriveDirectUrl(item.sermon_ppt);
       const noticeLink = formatDriveDirectUrl(item.notice_url);
@@ -1523,7 +1566,14 @@
       filtered.forEach((item, index) => {
         const isPlaylist = isPlaylistUrl(item.youtube_url);
         const videoId = getYoutubeId(item.youtube_url);
-        const customCover = formatDriveImageDirectUrl(item.cover_image);
+        
+        // 若分類為青年教會且無自訂封面，自動套用專屬預設封面
+        let coverToUse = item.cover_image;
+        if (!coverToUse && item.category === "青年教會") {
+          coverToUse = YOUTH_DEFAULT_COVER;
+        }
+
+        const customCover = formatDriveImageDirectUrl(coverToUse);
         let mediaThumbHtml = "";
 
         if (customCover) {
