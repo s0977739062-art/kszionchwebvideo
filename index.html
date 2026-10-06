@@ -1549,7 +1549,7 @@
       sermonGridEl.innerHTML = "";
       const query = searchQuery.trim().toLowerCase();
 
-      const filtered = sermonsData.filter(item => {
+      const filtered = [...sermonsData].reverse().filter(item => {
         const itemCat = (item.category || "").trim();
         const itemSer = (item.series || "").trim();
         const matchCategory = (currentCategory === "全部") || (itemCat === currentCategory) || (itemSer === currentCategory);
